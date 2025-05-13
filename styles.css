@@ -1,58 +1,73 @@
 body {
-    background-color: #f0f2f5;
+    background-color: #e9ecef;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Quicksand', sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .card {
     position: relative;
-    padding: 20px;
-    border-radius: 25px;
-    width: 500px;
+    padding: 30px;
+    border-radius: 30px;
+    width: 80%;
+    max-width: 800px;
     text-align: center;
-    background-color: #ffb6c1;
+    background-color: #ffe3e3;
     transition: all 0.3s ease;
-    border: 3px solid transparent;
+    border: 2px solid #ffccd5;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
 }
 
 .heart {
     width: 50px;
     height: 50px;
-    background-color: #ff4d4d;
+    background-color: #ff6b6b;
     transform: rotate(45deg);
-    margin: 10px auto;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .message {
-    color: #ff1493;
-    font-size: 18px;
-    margin: 15px 0;
+    color: #ff6b6b;
+    font-size: 20px;
+    margin: 20px 0;
+    transition: color 0.3s ease;
 }
 
 .name-input {
     width: 80%;
-    padding: 8px;
+    padding: 10px;
     border: none;
-    border-radius: 20px;
-    margin: 8px 0;
+    border-radius: 25px;
+    margin: 10px 0;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Hovedknapper */
-#buttonContainer button {
-    background-color: #4CAF50;
+button {
+    background-color: #48c774;
     color: white;
     border: none;
-    border-radius: 20px;
-    padding: 8px 15px;
-    width: 200px;
+    border-radius: 25px;
+    padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #3aa76d;
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Customization container */
@@ -87,11 +102,16 @@ body {
 
 /* Farge og tekstfarge knapper */
 .color-btn, .text-color-btn {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border: 2px solid white;
     border-radius: 50%;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.color-btn:hover {
+    transform: scale(1.1);
 }
 
 /* Font knapper */
@@ -129,31 +149,33 @@ body {
 .options-container {
     display: flex;
     justify-content: space-around;
-    margin-top: 15px;
-    gap: 10px;
+    margin-top: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .option-column {
     flex: 1;
     text-align: left;
+    min-width: 150px;
 }
 
 .option-label {
-    font-size: 14px;
-    color: #666;
+    font-size: 16px;
+    color: #555;
     margin: 5px 0;
 }
 
 .option-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 10px;
 }
 
 /* Knapper */
 .color-btn {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border: 2px solid white;
     border-radius: 50%;
     cursor: pointer;
@@ -217,24 +239,25 @@ body {
 /* Dropdown styling */
 .style-select {
     width: 100%;
-    padding: 8px;
-    border: 2px solid #ff69b4;
-    border-radius: 15px;
+    padding: 10px;
+    border: 2px solid #ff6b6b;
+    border-radius: 20px;
     background-color: white;
-    color: #ff69b4;
+    color: #ff6b6b;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ff69b4' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ff6b6b' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
     padding-right: 30px;
+    transition: background-color 0.3s ease;
 }
 
 .style-select:hover {
-    background-color: #fff0f5;
+    background-color: #ffe3e3;
 }
 
 .style-select:focus {
@@ -292,7 +315,7 @@ body {
     height: 400px;
     background-color: white;
     border: 2px solid #ccc;
-    border-radius: 10px;
+    border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -309,36 +332,6 @@ body {
             white 2px,
             white 20px
         );
-}
-
-.open-button[data-type="friend"]::before {
-    content: '🤗';
-    font-size: 80px;
-    margin-bottom: 20px;
-}
-
-.open-button[data-type="friend"]::after {
-    content: 'Til deg!';
-    font-size: 24px;
-    color: #ff69b4;
-}
-
-.open-button[data-type="love"]::before {
-    content: '❤️';
-    font-size: 80px;
-    margin-bottom: 20px;
-}
-
-.open-button[data-type="love"]::after {
-    content: 'Jeg elsker deg!';
-    font-size: 24px;
-    color: #ff1493;
-}
-
-.open-button[data-type="crush"]::before {
-    content: '💝';
-    font-size: 80px;
-    margin-bottom: 20px;
 }
 
 .open-button[data-type="crush"]::after {
@@ -365,82 +358,54 @@ body {
 
 /* Rammestiler */
 .border-simple {
-    border: 3px solid #ff69b4 !important;
+    border: 3px solid #ff6b6b !important;
 }
 
 .border-hearts {
     border: 15px solid transparent !important;
-    border-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='%23ff69b4'/%3E%3C/svg%3E") 30 round !important;
+    border-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='%23ff6b6b'/%3E%3C/svg%3E") 30 round !important;
 }
 
 .border-dotted {
-    border: 3px dotted #ff69b4 !important;
+    border: 3px dotted #ff6b6b !important;
 }
 
-.date-lock-container {
-    margin: 20px 0;
-    text-align: center;
-}
-
-.date-input {
-    margin-bottom: 15px;
-}
-
-.unlock-date-input {
-    padding: 8px;
-    border: 2px solid #ffb6c1;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-.lock-btn, .unlock-btn {
-    padding: 8px 15px;
-    background-color: #ff6b6b;
+.type-btn {
+    background-color: #ff69b4;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
+    padding: 10px 20px;
+    margin: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.lock-btn:hover, .unlock-btn:hover {
-    background-color: #ff5252;
+.type-btn:hover {
+    background-color: #ff1493;
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.lock-message {
-    background-color: rgba(255, 182, 193, 0.2);
-    padding: 20px;
-    border-radius: 10px;
+.emoji {
+    font-size: 60px;
+    text-align: center;
     margin: 20px 0;
 }
 
-.lock-message p {
-    margin: 5px 0;
-    font-size: 1.1em;
+.open.friend::before {
+    content: "😊";
+    /* Legg til flere stilregler her hvis nødvendig */
 }
 
-.hidden {
-    display: none;
+.open.love::before {
+    content: "❤️";
+    /* Legg til flere stilregler her hvis nødvendig */
 }
 
-.card-content {
-    transition: opacity 0.5s;
-}
-
-.message-input {
-    margin: 15px 0;
-}
-
-.message-input textarea {
-    width: 80%;
-    min-height: 100px;
-    padding: 10px;
-    border: 2px solid #ffb6c1;
-    border-radius: 10px;
-    resize: vertical;
-    font-family: inherit;
-}
-
-.message-input textarea::placeholder {
-    color: #999;
+.open.crush::before {
+    content: "💖";
+    /* Legg til flere stilregler her hvis nødvendig */
 }
