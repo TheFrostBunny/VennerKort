@@ -1,84 +1,13 @@
-<!DOCTYPE html>
-<html lang="no">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kort til Venner</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="card">
-        <div class="heart"></div>
-        <div class="message" id="message">
-            <p>Bestevenn! Håper dagen din er like fantastisk som deg!</p>
-        </div>
-        <div class="emoji" id="emoji"></div>
-        <input type="text" id="nameInput" placeholder="Skriv inn ditt navn her" class="name-input">
-        <button onclick="changeMessage()">Trykk for å få en ny melding!<jeg/button>
-        <button onclick="shareCard()">Del kortet</button>
-
-        <div class="options-container">
-            <div class="option-column">
-                <p class="option-label">Kortfarge:</p>
-                <div class="option-buttons">
-                    <button class="color-btn pink" onclick="changeColor('#ffb6c1')"></button>
-                    <button class="color-btn red" onclick="changeColor('#ff6b6b')"></button>
-                    <button class="color-btn purple" onclick="changeColor('#dda0dd')"></button>
-                    <button class="color-btn blue" onclick="changeColor('#87ceeb')"></button>
-                </div>
-            </div>
-
-            <div class="option-column">
-                <p class="option-label">Tekststil:</p>
-                <select class="style-select" onchange="changeFont(this.value)">
-                    <option value="Dancing Script">Stil 1</option>
-                    <option value="Pacifico">Stil 2</option>
-                    <option value="Comic Sans MS">Stil 3</option>
-                    <option value="Quicksand">Stil 4</option>
-                </select>
-            </div>
-
-            <div class="option-column">
-                <p class="option-label">Ramme:</p>
-                <select class="style-select" onchange="changeBorder(this.value)">
-                    <option value="none">Ingen</option>
-                    <option value="simple">Enkel</option>
-                    <option value="hearts">Hjerter</option>
-                    <option value="dotted">Prikker</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="options-container">
-            <div class="option-column">
-                <p class="option-label">Tekstfarge:</p>
-                <div class="option-buttons">
-                    <button class="color-btn" style="background: #ff1493" onclick="changeTextColor('#ff1493')"></button>
-                    <button class="color-btn" style="background: #9400d3" onclick="changeTextColor('#9400d3')"></button>
-                    <button class="color-btn" style="background: #4b0082" onclick="changeTextColor('#4b0082')"></button>
-                    <button class="color-btn" style="background: #ff69b4" onclick="changeTextColor('#ff69b4')"></button>
-                </div>
-            </div>
-
-            <div class="option-column">
-                <p class="option-label">Bakgrunn:</p>
-                <select class="style-select" onchange="changeEffect(this.value)">
-                    <option value="none">Ingen</option>
-                    <option value="hearts">Hjerter</option>
-                    <option value="sparkles">Stjerner</option>
-                    <option value="dots">Prikker</option>
-                    <option value="waves">Bølger</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="card-type-buttons">
-            <button onclick="changeCardType('friend')" class="type-btn">Vennekort</button>
-            <button onclick="changeCardType('love')" class="type-btn">Kjærlighetskort</button>
-            <button onclick="changeCardType('crush')" class="type-btn">Hemmelig beundrer</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vennekort</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
