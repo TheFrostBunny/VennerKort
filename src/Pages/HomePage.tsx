@@ -1,11 +1,11 @@
-import { Button } from "@material-tailwind/react";
+import Navbar from "../components/Navbar";
 
-const HomePage = () => {
+const App = () => {
   return (
     <div>
-        <Button>{"Button"}</Button>
+        <Navbar />
     </div>
   );
 };
 
-export default HomePage;
+export default App;
