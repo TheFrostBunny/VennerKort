@@ -1,7 +1,9 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 
-const Navbar: React.FC = () => (
-	<div className="navbar bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-sm">
+const Navbar = () => {
+	const { t } = useTranslation();
+	return(
+	<div className="navbar bg-[#1b263b] shadow-sm">
 		<div className="navbar-start">
 			<div className="dropdown">
 				<div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -12,14 +14,14 @@ const Navbar: React.FC = () => (
 				<ul
 					tabIndex={-1}
 					className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-					<li><a>Homepage</a></li>
-					<li><a>Portfolio</a></li>
-					<li><a>About</a></li>
+					<li><a>{t('navbar.home')}</a></li>
+					<li><a>{t('navbar.portfolio')}</a></li>
+					<li><a>{t('navbar.about')}</a></li>
 				</ul>
 			</div>
 		</div>
 		<div className="navbar-center">
-			<a className="btn btn-ghost text-xl">VenneKort</a>
+			<a className="btn btn-ghost text-xl">{t('AppName')}</a>
 		</div>
 		<div className="navbar-end">
 			<button className="btn btn-ghost btn-circle">
@@ -38,5 +40,6 @@ const Navbar: React.FC = () => (
 		</div>
 	</div>
 );
+};
 
 export default Navbar;

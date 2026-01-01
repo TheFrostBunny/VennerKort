@@ -1,0 +1,10 @@
+{
+  "AppName": "VennerKort",
+  "welcome": "Welcome to VennerKort!",
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio"
+    
+  }
+}
