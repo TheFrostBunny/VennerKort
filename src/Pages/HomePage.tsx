@@ -1,10 +1,11 @@
-
+import { Button } from "@material-tailwind/react";
 
 const HomePage = () => {
-    return (
-        <div>
-            <h2>Welcome to the Home Page!</h2>
-        </div>
-    );
-} 
+  return (
+    <div>
+        <Button>{"Button"}</Button>
+    </div>
+  );
+};
+
 export default HomePage;
