@@ -77,7 +77,7 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
   };
 
   const handleShare = useCallback(() => {
-    const url = new URL(window.location.href.split('?')[0]);
+    const url = new URL(window.location.origin + '/send');
     url.searchParams.set('tab', 'send');
     url.searchParams.set('name', state.senderName || 'En venn');
     url.searchParams.set('type', state.type);
