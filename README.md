@@ -61,4 +61,4 @@
 
 ---
 
-Laget med ❤️ av Google Deepmind teamet (Antigravity)
+Laget med ❤️ av David
