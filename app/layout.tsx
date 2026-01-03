@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "HappySend",
   description: "Send personlige digitale hilsener med 3D-konvolutter!",
   generator: 'HappySend',
+  manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

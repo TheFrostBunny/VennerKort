@@ -25,7 +25,6 @@ Her er en liste over spennende funksjoner som kan løfte HappySend (VennerKort) 
 
 ## 🚀 Teknisk / Avansert
 
-- **PWA (Progressive Web App)**: Gjør det mulig å installere HappySend som en app på telefonen utenom App Store.
 - **Analytics**: En liten dashboard-visning for avsenderen (hvor mange ganger er kortet åpnet? fra hvilket land?).
 - **Tema-velger**: La hele nettsiden (ikke bare kortet) bytte stil basert på sesong (vinter, sommer, natt-modus).
 - **Fysisk utskrift**: Legg til en knapp for å generere en PDF-versjon som er perfekt tilpasset utskrift og bretting.

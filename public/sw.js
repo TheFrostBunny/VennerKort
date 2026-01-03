@@ -3,7 +3,11 @@ const CACHE_NAME = 'happysend-v1';
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(['/']);
+      return cache.addAll([
+        '/',
+        '/logo.png',
+        '/manifest.json'
+      ]);
     })
   );
 });

@@ -22,6 +22,7 @@
 - **Ikoner**: [Lucide React](https://lucide.dev/) & [Hugeicons](https://hugeicons.com/)
 - **Effekter**: [Canvas Confetti](https://www.npmjs.com/package/canvas-confetti)
 - **Type-sikkerhet**: [TypeScript 5+](https://www.typescriptlang.org/)
+- **PWA (Progressive Web App)**: Gjør det mulig å installere HappySend som en app på telefonen utenom App Store.
 
 ## 🚀 Kom i gang
 

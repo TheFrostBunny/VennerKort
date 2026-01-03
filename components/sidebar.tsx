@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from 'next/link'
+import Image from 'next/image'
 
 import {
   Avatar,
@@ -110,9 +111,11 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
               <SidebarMenuButton size="lg" asChild>
                 <Link href="/">
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-pink-500 overflow-hidden">
-                    <img 
+                    <Image 
                       src="/logo.png" 
                       alt="HappySend Logo" 
+                      width={32}
+                      height={32}
                       className="size-8 object-contain"
                     />
                   </div>
