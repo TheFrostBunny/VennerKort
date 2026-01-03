@@ -189,9 +189,9 @@ export const Send: React.FC<SendProps> = ({ state, isViewOnly = false, onOpen })
                </div>
             </div>
 
-            {/* Pulsing opening indicator - Only show on hover */}
+            {/* Pulsing opening indicator - Only show on hover and if enabled */}
             <AnimatePresence>
-              {isHovered && (
+              {isHovered && state.showIndicator && (
                 <motion.div 
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: [1, 1.2, 1], opacity: 1, rotate: [0, 10, -10, 0] }}
@@ -282,9 +282,13 @@ export const Send: React.FC<SendProps> = ({ state, isViewOnly = false, onOpen })
               </motion.button>
             )}
 
-            {/* Corner Decorators */}
-            <div className="absolute top-0 left-0 p-8 text-current opacity-10 pointer-events-none" style={{ color: state.textColor }}><Sparkle className="w-12 h-12" /></div>
-            <div className="absolute bottom-0 right-0 p-8 text-current opacity-10 pointer-events-none" style={{ color: state.textColor }}><Sparkle className="w-12 h-12" /></div>
+            {/* Corner Decorators - Only show if enabled */}
+            {state.showIndicator && (
+              <>
+                <div className="absolute top-0 left-0 p-8 text-current opacity-10 pointer-events-none" style={{ color: state.textColor }}><Sparkle className="w-12 h-12" /></div>
+                <div className="absolute bottom-0 right-0 p-8 text-current opacity-10 pointer-events-none" style={{ color: state.textColor }}><Sparkle className="w-12 h-12" /></div>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

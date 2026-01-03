@@ -33,6 +33,7 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
     border: 'none',
     effect: 'none',
     emoji: '😊',
+    showIndicator: true,
   });
 
   // Initialize from URL
@@ -50,6 +51,7 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
         border: searchParams.get('border') || 'none',
         effect: searchParams.get('effect') || 'none',
         emoji: searchParams.get('emoji') || '😊',
+        showIndicator: searchParams.get('hint') !== 'false',
       });
     } else {
       setIsViewOnly(false);
@@ -88,6 +90,7 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
     url.searchParams.set('border', state.border);
     url.searchParams.set('effect', state.effect);
     url.searchParams.set('emoji', state.emoji);
+    url.searchParams.set('hint', state.showIndicator ? 'true' : 'false');
 
     navigator.clipboard.writeText(url.toString()).then(() => {
       setIsLinkCopied(true);

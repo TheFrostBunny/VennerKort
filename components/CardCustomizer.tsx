@@ -38,6 +38,7 @@ export interface CardState {
   border: string;
   effect: string;
   emoji: string;
+  showIndicator: boolean;
 }
 
 interface CardCustomizerProps {
@@ -256,6 +257,26 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
               ))}
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="flex items-center justify-between py-1 px-1">
+          <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
+            {t('customizer.show_indicator')}
+          </Label>
+          <button
+            onClick={() => onChange({ showIndicator: !state.showIndicator })}
+            className={cn(
+              "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
+              state.showIndicator ? "bg-pink-500" : "bg-zinc-200 dark:bg-zinc-800"
+            )}
+          >
+            <span
+              className={cn(
+                "pointer-events-none block h-4 w-4 rounded-full bg-white shadow-lg ring-0 transition-transform",
+                state.showIndicator ? "translate-x-4" : "translate-x-1"
+              )}
+            />
+          </button>
         </div>
       </div>
 
