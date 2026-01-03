@@ -4,16 +4,16 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Sparkle, MailOpen, Mail, Lock as LockIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { CardState } from '../CardCustomizer';
+import { CardState } from './CardCustomizer';
 import confetti from 'canvas-confetti';
 
-interface SendProps {
+interface GreetingCardProps {
   state: CardState;
   isViewOnly?: boolean;
   onOpen?: () => void;
 }
 
-export const Send: React.FC<SendProps> = ({ state, isViewOnly = false, onOpen }) => {
+export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = false, onOpen }) => {
   const [isOpen, setIsOpen] = useState(!isViewOnly);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -133,6 +133,7 @@ export const Send: React.FC<SendProps> = ({ state, isViewOnly = false, onOpen })
               setMousePosition({ x: 0, y: 0 });
             }}
             onClick={handleOpen}
+            onMouseMove={handleMouseMove}
           >
             {/* Envelope Back */}
             <div className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-xl shadow-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800">
