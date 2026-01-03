@@ -33,8 +33,8 @@
 1. Klon prosjektet:
 
    ```bash
-   git clone <repository-url>
-   cd VennerKort
+   git clone https://github.com/TheFrostBunny/HappySend.git
+   cd HappySend
    ```
 
 2. Installer avhengigheter:
