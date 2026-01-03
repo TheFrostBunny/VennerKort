@@ -98,8 +98,8 @@
   "nav": {
     "platform": "Platform",
     "product": "Services",
-    "send": "Envelope",
-    "receive": "Receive",
+    "send": "Send Card",
+    "receive": "Receive Card",
     "history": "History",
     "language": "Language",
     "about": "About Us"

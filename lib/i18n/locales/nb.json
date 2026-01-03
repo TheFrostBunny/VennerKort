@@ -102,8 +102,8 @@
   "nav": {
     "platform": "Plattform",
     "product": "Tjenester",
-    "send": "Konvolutt",
-    "receive": "Motta",
+    "send": "Send Kort",
+    "receive": "Mottate Kort",
     "history": "Historikk",
     "language": "Språk",
     "about": "Om oss"
