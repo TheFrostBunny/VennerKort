@@ -6,21 +6,22 @@
 
 - **Interaktiv 3D-opplevelse**: En animert 3D-konvolutt som reagerer på musebevegelser og åpner seg for å avdekke kortet.
 - **Full Tilpasning**: Velg mellom ulike korttyper (Venn, Kjærlighet, Hemmelig Beundrer), farger, skrifttyper, rammer og effekter (hjerter, stjerner, bølger).
-- **Ultra-kompakte lenker**: Bruker avansert Base64-koding for å komprimere alt kort-innholdet inn i én kort URL som er enkel å dele.
+- **Ultra-kompakte lenker**: Bruker avansert Base64-posisjonell koding for å komprimere alt kort-innholdet til én ekstremt kort URL.
 - **Fler-språklig støtte**: Full støtte for både Norsk og Engelsk (i18n).
 - **Dashbord & Historikk**: Oversikt over mottatte kort og din egen sendehistorikk (lagret lokalt).
+- **Om HappySend**: Integrert seksjon i innstillinger med informasjon om misjon, visjon og skaper.
 - **Responsivt Design**: Optimalisert for en "null-scroll"-opplevelse på alle skjermstørrelser.
 - **Mørk/Lys Modus**: Full støtte for systemvalgt eller manuelt tema.
 
 ## 🛠 Teknologi
 
-- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+- **Framework**: [Next.js 16.1+](https://nextjs.org/) (App Router med stabil **Turbopack**)
 - **UI Logikk**: [React 19](https://reactjs.org/)
 - **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
 - **Animasjoner**: [Framer Motion](https://www.framer.com/motion/)
 - **Ikoner**: [Lucide React](https://lucide.dev/) & [Hugeicons](https://hugeicons.com/)
 - **Effekter**: [Canvas Confetti](https://www.npmjs.com/package/canvas-confetti)
-- **Type-sikkerhet**: [TypeScript](https://www.typescriptlang.org/)
+- **Type-sikkerhet**: [TypeScript 5+](https://www.typescriptlang.org/)
 
 ## 🚀 Kom i gang
 
