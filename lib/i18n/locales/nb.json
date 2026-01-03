@@ -78,10 +78,14 @@
     "mission_desc": "Vi ønsker å gjøre det enklere og mer magisk å vise at man bryr seg, uansett avstand.",
     "creator_title": "Skaperen",
     "creator_desc": "HappySend er utviklet med ❤️ for å skape små øyeblikk av glede i hverdagen.",
-    "version": "HappySend v1.0.1 (VennerKort Oppgradering)"
+    "version": "HappySend v1.1.0 (PWA Edition)"
   },
   "changelog": {
     "title": "Endringslogg",
+    "v1_1_0": {
+      "date": "3. januar 2026",
+      "desc": "Offisiell PWA-støtte! Installer HappySend som app på mobilen. Pluss: Bedre konvolutt-design & autolagring."
+    },
     "v1_0_1": {
       "date": "3. januar 2026",
       "desc": "Små rettelser og forbedringer i språvask og grensesnitt."

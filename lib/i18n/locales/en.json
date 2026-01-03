@@ -78,13 +78,13 @@
     "mission_desc": "We want to make it easier and more magical to show you care, regardless of distance.",
     "creator_title": "The Creator",
     "creator_desc": "HappySend is developed with ❤️ to create small moments of joy in everyday life.",
-    "version": "HappySend v1.1.0"
+    "version": "HappySend v1.1.0 (PWA Edition)"
   },
   "changelog": {
     "title": "Changelog",
     "v1_1_0": {
       "date": "January 3, 2026",
-      "desc": "Small fixes and i18n updates."
+      "desc": "Official PWA Support! Install HappySend on your phone. Plus: Enhanced envelope design & draft saving."
     },
     "v1_0_0": {
       "date": "January 3, 2026",
