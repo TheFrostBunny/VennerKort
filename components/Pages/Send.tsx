@@ -45,9 +45,9 @@ export const Send: React.FC<SendProps> = ({ state, isViewOnly = false, onOpen })
 
   const borderStyles: Record<string, string> = {
     none: "border-transparent",
-    simple: "border-4 border-current opacity-30",
-    hearts: "border-[12px] border-double border-current opacity-30",
-    dotted: "border-4 border-dotted border-current opacity-30",
+    double: "border-[10px] border-double border-current",
+    dashed: "border-4 border-dashed border-current",
+    glow: "border-2 border-current shadow-[0_0_20px_white] ring-4 ring-current/20",
   };
 
   const getEffectOverlay = () => {
@@ -231,7 +231,12 @@ export const Send: React.FC<SendProps> = ({ state, isViewOnly = false, onOpen })
             {getEffectOverlay()}
             
             {/* High-End Border */}
-            <div className={cn("absolute inset-6 rounded-[1.5rem] pointer-events-none transition-all border-current", borderStyles[state.border])} style={{ color: state.textColor, opacity: 0.2 }} />
+            {state.border !== 'none' && (
+              <div 
+                className={cn("absolute inset-6 rounded-[1.5rem] pointer-events-none transition-all", borderStyles[state.border || 'none'])} 
+                style={{ color: state.textColor, opacity: state.border === 'glow' ? 0.6 : 0.4 }} 
+              />
+            )}
 
             {/* Content Container */}
             <div className="relative z-10 space-y-10 max-w-lg">

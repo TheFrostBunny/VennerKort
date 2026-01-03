@@ -73,7 +73,7 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
     },
     navMain: [
       {
-        title: "Kort",
+        title: t('card_app.card'),
         url: "#",
         icon: (
           <HugeiconsIcon icon={MailSend01Icon} strokeWidth={2} />

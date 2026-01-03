@@ -28,7 +28,8 @@
     "message_placeholder": "Write your greeting here...",
     "preview": "Preview",
     "save_card": "Save card",
-    "card_saved": "Card saved!"
+    "card_saved": "Card saved!",
+    "card": "Card"
   },
   "customizer": {
     "title": "Customize Card",

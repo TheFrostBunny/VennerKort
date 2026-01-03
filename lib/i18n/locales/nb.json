@@ -28,7 +28,8 @@
     "message_placeholder": "Skriv din hilsen her...",
     "preview": "Forhåndsvisning",
     "save_card": "Lagre kortet",
-    "card_saved": "Kortet er lagret!"
+    "card_saved": "Kortet er lagret!",
+    "card": "Kort"
   },
   "customizer": {
     "title": "Tilpass Kortet",

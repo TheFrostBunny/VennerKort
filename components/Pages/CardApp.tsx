@@ -36,10 +36,66 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
     showIndicator: true,
   });
 
+  // Maps for ultra-compact encoding
+  const TYPE_MAP = ['friend', 'love', 'crush'];
+  const FONT_MAP = [
+    'var(--font-dancing-script, cursive)',
+    'var(--font-pacifico, cursive)',
+    'var(--font-quicksand, sans-serif)',
+    'var(--font-inter, sans-serif)'
+  ];
+  const BORDER_MAP = ['none', 'double', 'dashed', 'glow'];
+  const EFFECT_MAP = ['none', 'hearts', 'sparkles', 'dots', 'waves'];
+
   // Initialize from URL
   useEffect(() => {
+    const code = searchParams.get('c');
     const name = searchParams.get('name');
-    if (name) {
+
+    if (code) {
+      try {
+        // Decode Unicode Base64
+        const json = decodeURIComponent(escape(atob(code)));
+        const data = JSON.parse(json);
+        
+        setIsViewOnly(true);
+        
+        // Handle both old object-based 'c' and new array-based 'c'
+        if (Array.isArray(data)) {
+          // New Array format: [name, typeIdx, msg, bgHex, textHex, fontIdx, borderIdx, effectIdx, emoji, hint]
+          const [n, t, m, b, tc, f, bd, e, em, h] = data;
+          setState({
+            senderName: n || '',
+            type: (TYPE_MAP[t] as CardType) || 'friend',
+            message: m || '',
+            backgroundColor: b ? `#${b}` : '#ffb6c1',
+            textColor: tc ? `#${tc}` : '#ff1493',
+            font: FONT_MAP[f] || FONT_MAP[0],
+            border: BORDER_MAP[bd] || 'none',
+            effect: EFFECT_MAP[e] || 'none',
+            emoji: em || '😊',
+            showIndicator: h !== 0,
+          });
+        } else {
+          // Old Object format in 'c'
+          setState({
+            type: data.t || 'friend',
+            message: data.m || '',
+            senderName: data.n || '',
+            backgroundColor: data.b || '#ffb6c1',
+            textColor: data.tc || '#ff1493',
+            font: data.f || FONT_MAP[0],
+            border: data.bd || 'none',
+            effect: data.e || 'none',
+            emoji: data.em || '😊',
+            showIndicator: data.h !== false,
+          });
+        }
+      } catch (e) {
+        console.error("Failed to decode card data", e);
+      }
+    } else if (name) {
+      // Backward compatibility for old links
       setIsViewOnly(true);
       setState({
         type: (searchParams.get('type') as CardType) || 'friend',
@@ -80,17 +136,25 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
 
   const handleShare = useCallback(() => {
     const url = new URL(window.location.origin + '/send');
-    url.searchParams.set('tab', 'send');
-    url.searchParams.set('name', state.senderName || 'En venn');
-    url.searchParams.set('type', state.type);
-    url.searchParams.set('message', state.message);
-    url.searchParams.set('color', state.backgroundColor);
-    url.searchParams.set('textColor', state.textColor);
-    url.searchParams.set('font', state.font);
-    url.searchParams.set('border', state.border);
-    url.searchParams.set('effect', state.effect);
-    url.searchParams.set('emoji', state.emoji);
-    url.searchParams.set('hint', state.showIndicator ? 'true' : 'false');
+    
+    // Create an ultra-compact positional array
+    const data = [
+      state.senderName,
+      TYPE_MAP.indexOf(state.type),
+      state.message,
+      state.backgroundColor.replace('#', ''),
+      state.textColor.replace('#', ''),
+      FONT_MAP.indexOf(state.font),
+      BORDER_MAP.indexOf(state.border),
+      EFFECT_MAP.indexOf(state.effect),
+      state.emoji,
+      state.showIndicator ? 1 : 0
+    ];
+
+    // Encode to Base64 (simple obfuscation/compression)
+    // Using encodeURIComponent/unescape to handle Unicode/Emojis correctly
+    const encodedData = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    url.searchParams.set('c', encodedData);
 
     navigator.clipboard.writeText(url.toString()).then(() => {
       setIsLinkCopied(true);
