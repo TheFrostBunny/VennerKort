@@ -6,16 +6,17 @@ import { useI18n } from '@/lib/i18n/i18n-context';
 
 interface DashboardProps {
   onStartSend: () => void;
+  onNavigate: (tab: string) => void;
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({ onStartSend }) => {
+export const Dashboard: React.FC<DashboardProps> = ({ onStartSend, onNavigate }) => {
   const { t } = useI18n();
 
   return (
-    <div className="flex-1 flex flex-col gap-8 p-8 max-w-6xl mx-auto w-full transition-colors bg-white dark:bg-zinc-950">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">{t('common.welcome')}</h1>
-        <p className="text-zinc-500 dark:text-zinc-400">{t('common.select_service')}</p>
+    <div className="flex-1 flex flex-col gap-6 p-4 md:p-6 max-w-6xl mx-auto w-full transition-colors bg-white dark:bg-zinc-950 overflow-y-auto scrollbar-hide">
+      <div className="space-y-0.5">
+        <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">{t('common.welcome')}</h1>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('common.select_service')}</p>
       </div>
       
       <div className="grid auto-rows-min gap-6 md:grid-cols-3 text-left">
@@ -30,16 +31,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartSend }) => {
           <p className="text-sm text-zinc-500 dark:text-zinc-400">{t('dashboard.send_card_desc')}</p>
         </div>
         
-        <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm opacity-60">
-          <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4 shadow-sm">
+        <div 
+          onClick={() => onNavigate('receive')}
+          className="group cursor-pointer p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-blue-200 dark:hover:border-blue-500/30 transition-all font-inherit"
+        >
+          <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform shadow-sm">
             <Sparkles className="w-6 h-6" />
           </div>
           <h3 className="font-bold text-lg mb-1 text-zinc-900 dark:text-zinc-100">{t('dashboard.receive_card')}</h3>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">{t('dashboard.receive_card_desc')}</p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm opacity-60">
-          <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4 shadow-sm">
+        <div 
+          onClick={() => onNavigate('history')}
+          className="group cursor-pointer p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-purple-200 dark:hover:border-purple-500/30 transition-all font-inherit"
+        >
+          <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4 group-hover:scale-110 transition-transform shadow-sm">
             <Sparkles className="w-6 h-6" />
           </div>
           <h3 className="font-bold text-lg mb-1 text-zinc-900 dark:text-zinc-100">{t('dashboard.history')}</h3>
@@ -47,7 +54,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartSend }) => {
         </div>
       </div>
 
-      <div className="flex-1 min-h-[200px] bg-zinc-50/50 dark:bg-zinc-900/50 rounded-3xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-600 mt-4">
+      <div className="flex-1 min-h-[150px] bg-zinc-50/50 dark:bg-zinc-900/50 rounded-3xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-600 mt-2 pb-6">
         <div className="text-center">
           <Sparkles className="w-12 h-12 mx-auto mb-4 opacity-20" />
           <p className="font-medium">{t('common.coming_soon')}</p>

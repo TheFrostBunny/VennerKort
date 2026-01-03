@@ -1,20 +1,26 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
-import { SendKort } from '@/components/SendKort';
+import { Sparkles, Heart } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Send } from '@/components/Pages/Send';
 import { CardCustomizer, CardState, CardType } from '@/components/CardCustomizer';
 import { DEFAULT_MESSAGES } from '@/lib/constants';
+import { useI18n } from '@/lib/i18n/i18n-context';
 
 interface CardAppProps {
   isViewOnlyInitial?: boolean;
 }
 
 export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) => {
+  const { t } = useI18n();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [isViewOnly, setIsViewOnly] = useState(isViewOnlyInitial);
+  const [hasOpened, setHasOpened] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   
   const [state, setState] = useState<CardState>({
@@ -45,6 +51,9 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
         effect: searchParams.get('effect') || 'none',
         emoji: searchParams.get('emoji') || '😊',
       });
+    } else {
+      setIsViewOnly(false);
+      setHasOpened(false);
     }
   }, [searchParams]);
 
@@ -69,6 +78,7 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
 
   const handleShare = useCallback(() => {
     const url = new URL(window.location.href.split('?')[0]);
+    url.searchParams.set('tab', 'send');
     url.searchParams.set('name', state.senderName || 'En venn');
     url.searchParams.set('type', state.type);
     url.searchParams.set('message', state.message);
@@ -81,34 +91,81 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
 
     navigator.clipboard.writeText(url.toString()).then(() => {
       setIsLinkCopied(true);
+      // Save to history
+      const sentHistory = JSON.parse(localStorage.getItem('happysend_history') || '[]');
+      const newSentCard = {
+        ...state,
+        id: Date.now().toString(),
+        sentAt: new Date().toISOString()
+      };
+      localStorage.setItem('happysend_history', JSON.stringify([...sentHistory, newSentCard]));
+      
       setTimeout(() => setIsLinkCopied(false), 3000);
     });
   }, [state]);
 
+  const handleSave = () => {
+    const savedCards = JSON.parse(localStorage.getItem('happysend_received') || '[]');
+    const newSavedCard = {
+      ...state,
+      id: Date.now().toString(),
+      receivedAt: new Date().toISOString()
+    };
+    localStorage.setItem('happysend_received', JSON.stringify([...savedCards, newSavedCard]));
+    setIsSaved(true);
+    setTimeout(() => setIsSaved(false), 3000);
+  };
+
   return (
     <>
       {/* Content Area */}
-      <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 relative overflow-y-auto min-h-0 bg-zinc-50/30 dark:bg-zinc-950/30">
+      <div className="flex-1 flex flex-col items-center justify-center p-2 md:p-4 relative overflow-hidden min-h-0 bg-zinc-50/30 dark:bg-zinc-950/30">
         {/* Card Container */}
-        <div className="w-full max-w-4xl z-10 py-12">
-          <SendKort state={state} isViewOnly={isViewOnly} />
+        <div className="w-full max-w-4xl z-10 py-4 flex flex-col items-center">
+          <Send 
+            state={state} 
+            isViewOnly={isViewOnly} 
+            onOpen={() => setHasOpened(true)}
+          />
+          
+          <AnimatePresence>
+            {isViewOnly && hasOpened && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full flex flex-col items-center"
+              >
+                  <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+                    <button 
+                      onClick={() => {
+                        setIsViewOnly(false);
+                        setHasOpened(false);
+                        router.push('/');
+                      }}
+                      className="flex items-center gap-2 text-zinc-400 hover:text-pink-500 transition-colors text-sm font-medium"
+                    >
+                      <Sparkles className="w-4 h-4" />
+                      {t('card_app.create_own')}
+                    </button>
+
+                    <span className="hidden sm:block w-1 h-1 rounded-full bg-zinc-300" />
+
+                    <button 
+                      onClick={handleSave}
+                      disabled={isSaved}
+                      className={cn(
+                        "flex items-center gap-2 transition-colors text-sm font-medium",
+                        isSaved ? "text-green-500" : "text-zinc-400 hover:text-blue-500"
+                      )}
+                    >
+                      <Heart className={cn("w-4 h-4", isSaved && "fill-current")} />
+                      {isSaved ? t('card_app.card_saved') : t('card_app.save_card')}
+                    </button>
+                  </div>
+                </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-
-        {/* Back Button for recipients who want to make their own */}
-        {isViewOnly && (
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-            onClick={() => {
-              window.location.href = window.location.pathname;
-            }}
-            className="mt-8 flex items-center gap-2 text-zinc-400 hover:text-pink-500 transition-colors text-sm font-medium"
-          >
-            <Sparkles className="w-4 h-4" /> Lag ditt eget kort
-          </motion.button>
-        )}
-
         {/* Floating background elements */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
            <div className="absolute top-1/4 -left-20 w-64 h-64 bg-pink-200/5 blur-[100px] rounded-full" />

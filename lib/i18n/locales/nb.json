@@ -1,0 +1,68 @@
+{
+  "common": {
+    "welcome": "Velkommen til HappySend",
+    "select_service": "Velg en tjeneste fra menyen for å komme i gang.",
+    "coming_soon": "Flere funksjoner kommer snart!",
+    "back_home": "Tilbake til hjemskjermen",
+    "loading": "Laster..."
+  },
+  "dashboard": {
+    "send_card": "Send Kort",
+    "send_card_desc": "Lag og del et personlig kort med noen du er glad i.",
+    "receive_card": "Motta Kort",
+    "receive_card_desc": "Se dine mottatte hilsener og meldinger.",
+    "no_received_cards": "Ingen mottatte kort ennå.",
+    "history": "Historikk",
+    "history_desc": "Se oversikt over alle kort du har sendt tidligere.",
+    "no_history": "Du har ikke sendt noen kort ennå."
+  },
+  "card_app": {
+    "create_own": "Lag ditt eget kort",
+    "share_title": "Del ditt kort",
+    "copy_link": "Kopier Link",
+    "link_copied": "Link kopiert!",
+    "random_msg": "Tilfeldig melding",
+    "sender_name": "Ditt navn",
+    "sender_placeholder": "Skriv navnet ditt...",
+    "message_title": "Melding",
+    "message_placeholder": "Skriv din hilsen her...",
+    "preview": "Forhåndsvisning",
+    "save_card": "Lagre kortet",
+    "card_saved": "Kortet er lagret!"
+  },
+  "customizer": {
+    "title": "Tilpass Kortet",
+    "type": "Kort Type",
+    "friend": "Venn",
+    "love": "Kjærlighet",
+    "crush": "Hemmelig Beundrer",
+    "appearance": "Utseende",
+    "bg_color": "Bakgrunnsfarge",
+    "text_color": "Tekstfarge",
+    "font": "Skrifttype",
+    "border": "Ramme",
+    "effects": "Effekter",
+    "none": "Ingen",
+    "sparkles": "Glitrende stjerner",
+    "hearts": "Flytende hjerter",
+    "dots": "Magiske prikker",
+    "waves": "Bølgende animasjon",
+    "dashed": "Stiplet linje",
+    "double": "Dobbel ramme",
+    "glow": "Lysende glød",
+    "del_kort": "Del Kort",
+    "settings": "Innstillinger",
+    "language_select": "Velg Språk",
+    "language_desc": "Velg hvilket språk du vil bruke i appen.",
+    "receive_title": "Mottatte Kort",
+    "history_title": "Min Historikk"
+  },
+  "nav": {
+    "platform": "Plattform",
+    "product": "Tjenester",
+    "send": "Send",
+    "receive": "Motta",
+    "history": "Historikk",
+    "language": "Språk"
+  }
+}

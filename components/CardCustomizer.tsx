@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { useI18n } from '@/lib/i18n/i18n-context';
 
 export type CardType = 'friend' | 'love' | 'crush';
 
@@ -70,21 +71,6 @@ const TEXT_COLORS = [
   { name: 'Black', value: '#1a1a1a' },
 ];
 
-const BORDERS = [
-  { name: 'None', value: 'none' },
-  { name: 'Simple', value: 'simple' },
-  { name: 'Hearts', value: 'hearts' },
-  { name: 'Dotted', value: 'dotted' },
-];
-
-const EFFECTS = [
-  { name: 'None', value: 'none' },
-  { name: 'Hearts', value: 'hearts' },
-  { name: 'Stars', value: 'sparkles' },
-  { name: 'Dots', value: 'dots' },
-  { name: 'Waves', value: 'waves' },
-];
-
 export const CardCustomizer: React.FC<CardCustomizerProps> = ({
   state,
   onChange,
@@ -92,86 +78,114 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
   onRandomMessage,
   isLinkCopied,
 }) => {
-  return (
-    <div className="flex flex-col gap-6 p-6 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-l border-zinc-200 dark:border-zinc-800 h-full overflow-y-auto w-full md:w-80 shadow-2xl">
-      <div className="flex items-center gap-2 mb-2">
-        <Sparkles className="w-5 h-5 text-pink-500" />
-        <h2 className="text-xl font-bold tracking-tight">Tilpass Kort</h2>
-      </div>
+  const { t } = useI18n();
 
-      <div className="space-y-4">
+  const BORDERS = [
+    { name: t('customizer.none'), value: 'none' },
+    { name: t('customizer.double'), value: 'double' },
+    { name: t('customizer.dashed'), value: 'dashed' },
+    { name: t('customizer.glow'), value: 'glow' },
+  ];
+
+  const EFFECTS = [
+    { name: t('customizer.none'), value: 'none' },
+    { name: t('customizer.hearts'), value: 'hearts' },
+    { name: t('customizer.sparkles'), value: 'sparkles' },
+    { name: t('customizer.dots'), value: 'dots' },
+    { name: t('customizer.waves'), value: 'waves' },
+  ];
+
+  return (
+    <div className="h-full flex flex-col bg-white dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-4 shadow-xl">
+      <div className="flex-1 overflow-y-auto pr-1 -mr-1 scrollbar-hide space-y-4">
+        {/* Header */}
+        <div className="flex items-center justify-between pb-2">
+          <h2 className="text-sm font-black uppercase tracking-wider text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-pink-500" />
+            {t('customizer.title')}
+          </h2>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={onRandomMessage}
+            className="h-7 w-7 p-0 rounded-full hover:bg-pink-50 dark:hover:bg-pink-900/20"
+          >
+            <RefreshCcw className="w-3.5 h-3.5 text-pink-500" />
+          </Button>
+        </div>
+
         {/* Card Type */}
         <div className="space-y-2">
-          <Label className="flex items-center gap-2 text-sm font-medium opacity-70">
-            <Heart className="w-4 h-4" /> Korttype
+          <Label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-tight opacity-50">
+            <Heart className="w-3 h-3" /> {t('customizer.type')}
           </Label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-1.5">
             {[
-              { id: 'friend', icon: Users, label: 'Venn', emoji: '😊' },
-              { id: 'love', icon: Heart, label: 'Kjærlighet', emoji: '❤️' },
-              { id: 'crush', icon: LockIcon, label: 'Crush', emoji: '💖' },
-            ].map((t) => (
+              { id: 'friend', icon: Users, label: t('customizer.friend'), emoji: '😊' },
+              { id: 'love', icon: Heart, label: t('customizer.love'), emoji: '❤️' },
+              { id: 'crush', icon: LockIcon, label: t('customizer.crush'), emoji: '💖' },
+            ].map((item) => (
               <button
-                key={t.id}
-                onClick={() => onChange({ type: t.id as CardType, emoji: t.emoji })}
+                key={item.id}
+                onClick={() => onChange({ type: item.id as CardType, emoji: item.emoji })}
                 className={cn(
-                  "flex flex-col items-center justify-center p-2 rounded-xl border transition-all",
-                  state.type === t.id 
+                  "flex flex-col items-center justify-center p-1.5 rounded-xl border transition-all",
+                  state.type === item.id 
                     ? "bg-pink-50 border-pink-200 text-pink-600 dark:bg-pink-500/10 dark:border-pink-500/30" 
-                    : "border-zinc-200 dark:border-zinc-800 hover:border-pink-200 dark:hover:border-zinc-700"
+                    : "border-zinc-100 dark:border-zinc-800 hover:border-pink-200 dark:hover:border-zinc-700"
                 )}
               >
-                <t.icon className="w-4 h-4 mb-1" />
-                <span className="text-[10px] font-medium">{t.label}</span>
+                <item.icon className="w-3.5 h-3.5 mb-0.5" />
+                <span className="text-[9px] font-bold">{item.label}</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Sender Name */}
-        <div className="space-y-2">
-          <Label htmlFor="name" className="text-sm font-medium opacity-70">Ditt Navn</Label>
+        <div className="space-y-1.5">
+          <Label htmlFor="name" className="text-[10px] font-bold uppercase tracking-tight opacity-50">{t('card_app.sender_name')}</Label>
           <Input 
             id="name"
-            placeholder="Skriv navnet ditt..." 
+            placeholder={t('card_app.sender_placeholder')} 
             value={state.senderName}
             onChange={(e) => onChange({ senderName: e.target.value })}
-            className="rounded-xl border-zinc-200 dark:border-zinc-800 focus:ring-pink-500"
+            className="rounded-xl h-9 text-xs border-zinc-200 dark:border-zinc-800 focus:ring-pink-500"
           />
         </div>
 
         {/* Message */}
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <div className="flex justify-between items-center">
-            <Label className="text-sm font-medium opacity-70">Melding</Label>
+            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">{t('card_app.message_title')}</Label>
             <button 
               onClick={onRandomMessage}
-              className="text-[10px] flex items-center gap-1 text-pink-500 hover:text-pink-600 transition-colors"
+              className="text-[9px] font-bold uppercase text-pink-500 hover:text-pink-600 transition-colors"
             >
-              <RefreshCcw className="w-3 h-3" /> Ny melding
+              {t('card_app.random_msg')}
             </button>
           </div>
           <textarea
-            className="w-full min-h-[100px] p-3 text-sm rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 outline-none transition-all resize-none"
-            placeholder="Skriv en koselig melding..."
+            className="w-full min-h-[80px] p-2.5 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 focus:ring-2 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all resize-none"
+            placeholder={t('card_app.message_placeholder')}
             value={state.message}
             onChange={(e) => onChange({ message: e.target.value })}
           />
         </div>
 
-        {/* Appearance Grid */}
-        <div className="grid grid-cols-2 gap-4">
+        {/* Appearance Section */}
+        <div className="space-y-3 pt-1">
           <div className="space-y-2">
-            <Label className="flex items-center gap-2 text-xs font-medium opacity-70">
-              <Palette className="w-3 h-3" /> Farge
+            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
+              {t('customizer.bg_color')}
             </Label>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {COLORS.map((c) => (
                 <button
                   key={c.value}
                   onClick={() => onChange({ backgroundColor: c.value })}
                   className={cn(
-                    "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110",
+                    "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 shadow-sm",
                     state.backgroundColor === c.value ? "border-pink-500 scale-110" : "border-white dark:border-zinc-800"
                   )}
                   style={{ backgroundColor: c.value }}
@@ -181,16 +195,16 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label className="flex items-center gap-2 text-xs font-medium opacity-70">
-              <Type className="w-3 h-3" /> Tekstfarge
+            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
+              {t('customizer.text_color')}
             </Label>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {TEXT_COLORS.map((c) => (
                 <button
                   key={c.value}
                   onClick={() => onChange({ textColor: c.value })}
                   className={cn(
-                    "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110",
+                    "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 shadow-sm",
                     state.textColor === c.value ? "border-pink-500 scale-110" : "border-white dark:border-zinc-800"
                   )}
                   style={{ backgroundColor: c.value }}
@@ -200,75 +214,66 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
           </div>
         </div>
 
-        {/* Font & Border */}
-        <div className="space-y-4 pt-2">
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2 text-xs font-medium opacity-70">
-              <Type className="w-3 h-3" /> Skrifttype
-            </Label>
+        {/* Final Settings Grid */}
+        <div className="grid grid-cols-2 gap-3 pt-1">
+          <div className="space-y-1.5">
+            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">{t('customizer.font')}</Label>
             <Select value={state.font} onValueChange={(v) => onChange({ font: v })}>
-              <SelectTrigger className="rounded-xl h-9 text-xs">
-                <SelectValue placeholder="Velg font" />
+              <SelectTrigger className="rounded-xl h-8 text-[10px]">
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {FONTS.map(f => (
-                  <SelectItem key={f.value} value={f.value} className="text-xs">{f.name}</SelectItem>
+                  <SelectItem key={f.value} value={f.value} className="text-[10px]">{f.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="flex items-center gap-2 text-xs font-medium opacity-70">
-                <Frame className="w-3 h-3" /> Ramme
-              </Label>
-              <Select value={state.border} onValueChange={(v) => onChange({ border: v })}>
-                <SelectTrigger className="rounded-xl h-9 text-xs">
-                  <SelectValue placeholder="Ramme" />
-                </SelectTrigger>
-                <SelectContent>
-                  {BORDERS.map(b => (
-                    <SelectItem key={b.value} value={b.value} className="text-xs">{b.name}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="flex items-center gap-2 text-xs font-medium opacity-70">
-                <Sparkles className="w-3 h-3" /> Effekt
-              </Label>
-              <Select value={state.effect} onValueChange={(v) => onChange({ effect: v })}>
-                <SelectTrigger className="rounded-xl h-9 text-xs">
-                  <SelectValue placeholder="Effekt" />
-                </SelectTrigger>
-                <SelectContent>
-                  {EFFECTS.map(e => (
-                    <SelectItem key={e.value} value={e.value} className="text-xs">{e.name}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-1.5">
+            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">{t('customizer.border')}</Label>
+            <Select value={state.border} onValueChange={(v) => onChange({ border: v })}>
+              <SelectTrigger className="rounded-xl h-8 text-[10px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {BORDERS.map(b => (
+                  <SelectItem key={b.value} value={b.value} className="text-[10px]">{b.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
+        </div>
+
+        <div className="space-y-1.5">
+          <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">Effekt</Label>
+          <Select value={state.effect} onValueChange={(v) => onChange({ effect: v })}>
+            <SelectTrigger className="rounded-xl h-8 text-[10px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {EFFECTS.map(e => (
+                <SelectItem key={e.value} value={e.value} className="text-[10px]">{e.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
-      <div className="mt-auto pt-6">
+      <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
         <Button 
           onClick={onShare}
           className={cn(
-            "w-full rounded-2xl h-12 font-bold transition-all shadow-lg active:scale-95",
-            isLinkCopied ? "bg-green-500 hover:bg-green-600" : "bg-pink-500 hover:bg-pink-600 text-white"
+            "w-full rounded-2xl h-11 text-xs font-black uppercase tracking-widest transition-all shadow-lg active:scale-95",
+            isLinkCopied ? "bg-green-500 hover:bg-green-600 text-white" : "bg-pink-500 hover:bg-pink-600 text-white"
           )}
         >
           {isLinkCopied ? (
             <span className="flex items-center gap-2">
-              <Check className="w-5 h-5" /> Kopiert!
+              <Check className="w-4 h-4" /> {t('card_app.link_copied')}
             </span>
           ) : (
             <span className="flex items-center gap-2">
-              <Share2 className="w-5 h-5" /> Del Kortet
+              <Share2 className="w-4 h-4" /> {t('customizer.del_kort')}
             </span>
           )}
         </Button>

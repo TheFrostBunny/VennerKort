@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from 'next/link'
 
 import {
   Avatar,
@@ -49,15 +50,19 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { HugeiconsIcon } from "@hugeicons/react"
-import { MailSend01Icon, SentIcon, MailReceive01Icon, WorkHistoryIcon, UnfoldMoreIcon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
+import { MailSend01Icon, SentIcon, MailReceive01Icon, WorkHistoryIcon, UnfoldMoreIcon, ArrowRight01Icon, Globe02Icon, Settings02Icon } from "@hugeicons/core-free-icons"
+import { Heart, Settings as SettingsIcon } from 'lucide-react'
+import { useI18n } from '@/lib/i18n/i18n-context'
+import { cn } from '@/lib/utils'
 
 export function SidebarIconExample({ children }: { children?: React.ReactNode }) {
+  const { lang, setLang, t } = useI18n()
   const [mounted, setMounted] = React.useState(false)
   const [currentPath, setCurrentPath] = React.useState("")
 
   React.useEffect(() => {
     setMounted(true)
-    setCurrentPath(window.location.search)
+    setCurrentPath(window.location.pathname)
   }, [])
 
   const data = {
@@ -68,7 +73,7 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
     },
     navMain: [
       {
-        title: "Send Kort",
+        title: "Kort",
         url: "#",
         icon: (
           <HugeiconsIcon icon={MailSend01Icon} strokeWidth={2} />
@@ -76,17 +81,17 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
         isActive: true,
         items: [
           {
-            title: "Send",
-            url: "/?tab=send",
+            title: t('nav.send'),
+            url: "/send",
             icon: <HugeiconsIcon icon={SentIcon} strokeWidth={2} className="size-4" />,
           },
           {
-            title: "Receive",
+            title: t('nav.receive'),
             url: "/receive",
             icon: <HugeiconsIcon icon={MailReceive01Icon} strokeWidth={2} className="size-4" />,
           },
           {
-            title: "History",
+            title: t('nav.history'),
             url: "/history",
             icon: <HugeiconsIcon icon={WorkHistoryIcon} strokeWidth={2} className="size-4" />,
           },
@@ -102,34 +107,26 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton
-                size="lg"
-                className="hover:bg-transparent"
-                asChild
-              >
-                <a href="/">
-                  <Button size="icon-sm" asChild className="size-8 overflow-hidden bg-transparent hover:bg-transparent shadow-none border-none group-data-[collapsible=icon]:p-0">
-                    <span className="flex items-center justify-center">
-                      <img 
-                        src="/logo.png" 
-                        alt="HappySend Logo" 
-                        className="size-8 object-contain"
-                      />
-                    </span>
-                  </Button>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold text-zinc-900 dark:text-zinc-100">
-                      HappySend
-                    </span>
+              <SidebarMenuButton size="lg" asChild>
+                <Link href="/">
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-pink-500 overflow-hidden">
+                    <img 
+                      src="/logo.png" 
+                      alt="HappySend Logo" 
+                      className="size-8 object-contain"
+                    />
                   </div>
-                </a>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold underline decoration-pink-500/30">HappySend</span>
+                  </div>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+            <SidebarGroupLabel>{t('nav.product')}</SidebarGroupLabel>
             <SidebarMenu>
               {data.navMain.map((item) => (
                 <Collapsible
@@ -152,12 +149,12 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton 
                               asChild 
-                              isActive={mounted && currentPath.includes(`tab=${subItem.url.split('=')[1]}`)}
+                               isActive={mounted && (currentPath === subItem.url || currentPath.startsWith(subItem.url + '/'))}
                             >
-                              <a href={subItem.url} className="flex items-center gap-2">
+                              <Link href={subItem.url} className="flex items-center gap-2">
                                 {subItem.icon}
                                 {subItem.title}
-                              </a>
+                              </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -218,9 +215,18 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>Account</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/account">Account</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/billing">Billing</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/settings" className="flex items-center gap-2">
+                        <SettingsIcon className="size-4" />
+                        {t('customizer.settings')}
+                      </Link>
+                    </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
