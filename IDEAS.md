@@ -12,7 +12,6 @@ Her er en liste over spennende funksjoner som kan løfte HappySend (VennerKort) 
 ## 🛠 Funksjonalitet
 
 - **Gruppekort**: La flere personer legge inn hver sin hilsen i det samme kortet (perfekt for bursdager i vennegjengen eller på jobb).
-- **Tidsinnstilt åpning**: Sett en dato og klokkeslett for når kortet skal kunne åpnes (f.eks. "Ikke åpne før julaften!").
 - **Smart-tekst (AI)**: Integrer en enkel AI som kan hjelpe brukeren med å skrive den perfekte hilsenen basert på stikkord.
 - **Bildeopplasting**: La brukeren legge inn et eget bilde eller et lite galleri inni hilsenen.
 

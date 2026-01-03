@@ -10,6 +10,9 @@ import { CardCustomizer, CardState, CardType } from '@/components/CardCustomizer
 import { DEFAULT_MESSAGES } from '@/lib/constants';
 import { useI18n } from '@/lib/i18n/i18n-context';
 import { SidebarIconExample } from '@/components/sidebar';
+import { useAuth } from '@/lib/appwrite/auth-context';
+import { createCard, getCard } from '@/lib/appwrite/client';
+import { toast } from 'sonner';
 
 function SendContent() {
   const { t } = useI18n();
@@ -21,6 +24,7 @@ function SendContent() {
   const [isSaved, setIsSaved] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
+  const { user } = useAuth();
   
   const [state, setState] = useState<CardState>({
     type: 'friend',
@@ -34,7 +38,9 @@ function SendContent() {
     emoji: '😊',
     showIndicator: false,
     confettiType: 'standard',
+
     envelopeStyle: 'classic',
+    unlockAt: null,
   });
 
   // Maps for ultra-compact encoding
@@ -50,12 +56,35 @@ function SendContent() {
   const CONFETTI_MAP = ['standard', 'hearts', 'stars', 'snow'];
   const ENVELOPES_MAP = ['classic', 'modern', 'vintage'];
 
-  // Initialize from URL or Draft
+  // Initialize from URL (Base64 or Appwrite ID) or Draft
   useEffect(() => {
     const code = searchParams.get('c');
+    const cloudId = searchParams.get('id');
     const name = searchParams.get('name');
 
-    if (code) {
+    if (cloudId) {
+        // Load from Appwrite
+        getCard(cloudId).then((doc) => {
+            setIsViewOnly(true);
+            setState({
+                type: (doc.type as CardType) || 'friend',
+                message: doc.message || '',
+                senderName: doc.senderName || '',
+                backgroundColor: doc.backgroundColor || '#ffb6c1',
+                textColor: doc.textColor || '#ff1493',
+                font: doc.font || FONT_MAP[0],
+                border: doc.border || 'none',
+                effect: doc.effect || 'none',
+                emoji: doc.emoji || '😊',
+                showIndicator: doc.showIndicator,
+                confettiType: doc.confettiType || 'standard',
+                envelopeStyle: doc.envelopeStyle || 'classic',
+                unlockAt: doc.unlockAt || null,
+            });
+        }).catch(() => {
+            toast.error("Fant ikke kortet", { description: "Linken kan være ugyldig eller utløpt." });
+        });
+    } else if (code) {
       try {
         // Decode Unicode Base64
         const json = decodeURIComponent(escape(atob(code)));
@@ -64,7 +93,7 @@ function SendContent() {
         setIsViewOnly(true);
         
         if (Array.isArray(data)) {
-          const [n, tIdx, m, b, tc, f, bd, e, em, h] = data;
+          const [n, tIdx, m, b, tc, f, bd, e, em, h, cType, eStyle, uAt] = data;
           setState({
             senderName: n || '',
             type: (TYPE_MAP[tIdx] as CardType) || 'friend',
@@ -77,7 +106,9 @@ function SendContent() {
             emoji: em || '😊',
             showIndicator: h !== 0,
             confettiType: (CONFETTI_MAP[data[10]] as any) || 'standard',
+
             envelopeStyle: (ENVELOPES_MAP[data[11]] as any) || 'classic',
+            unlockAt: uAt || null,
           });
         } else {
           setState({
@@ -92,7 +123,9 @@ function SendContent() {
             emoji: data.em || '😊',
             showIndicator: data.h !== false,
             confettiType: data.ct || 'standard',
+
             envelopeStyle: data.es || 'classic',
+            unlockAt: data.uAt || null,
           });
         }
       } catch (e) {
@@ -112,7 +145,9 @@ function SendContent() {
         emoji: searchParams.get('emoji') || '😊',
         showIndicator: searchParams.get('hint') !== 'false',
         confettiType: (searchParams.get('confetti') as any) || 'standard',
+
         envelopeStyle: (searchParams.get('env') as any) || 'classic',
+        unlockAt: searchParams.get('unlockAt') || null,
       });
     } else {
       // Check for draft
@@ -159,8 +194,33 @@ function SendContent() {
     updateState({ message: newMessage });
   };
 
-  const handleShare = useCallback(() => {
+  const handleShare = useCallback(async () => {
     const url = new URL(window.location.origin + '/send');
+    
+    // Check if logged in for Cloud Save
+    if (user) {
+        try {
+             // Save to Appwrite
+             const doc = await createCard({
+                 ...state,
+                 senderName: state.senderName || user.name, // Fallback to user name
+             });
+             url.searchParams.set('id', doc.$id);
+             
+             navigator.clipboard.writeText(url.toString()).then(() => {
+                setIsLinkCopied(true);
+                toast.success("Link kopiert!", { description: "Kortet er lagret i skyen." });
+                setTimeout(() => setIsLinkCopied(false), 3000);
+             });
+             return;
+        } catch (error) {
+            console.error(error);
+            toast.error("Kunne ikke lagre til skyen", { description: "Bruker standard link i stedet." });
+            // Fallthrough to standard logic on error
+        }
+    }
+
+    // Standard Logic (Base64)
     const data = [
       state.senderName,
       TYPE_MAP.indexOf(state.type),
@@ -171,9 +231,11 @@ function SendContent() {
       BORDER_MAP.indexOf(state.border),
       EFFECT_MAP.indexOf(state.effect),
       state.emoji,
+
       state.showIndicator ? 1 : 0,
       CONFETTI_MAP.indexOf(state.confettiType),
-      ENVELOPES_MAP.indexOf(state.envelopeStyle)
+      ENVELOPES_MAP.indexOf(state.envelopeStyle),
+      state.unlockAt // index 12
     ];
 
     const encodedData = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
@@ -181,6 +243,7 @@ function SendContent() {
 
     navigator.clipboard.writeText(url.toString()).then(() => {
       setIsLinkCopied(true);
+      toast.success("Link kopiert!"); // using sonner
       const sentHistory = JSON.parse(localStorage.getItem('happysend_history') || '[]');
       const newSentCard = {
         ...state,
@@ -190,7 +253,7 @@ function SendContent() {
       localStorage.setItem('happysend_history', JSON.stringify([...sentHistory, newSentCard]));
       setTimeout(() => setIsLinkCopied(false), 3000);
     });
-  }, [state]);
+  }, [state, user]);
 
   const handleSave = () => {
     const savedCards = JSON.parse(localStorage.getItem('happysend_received') || '[]');

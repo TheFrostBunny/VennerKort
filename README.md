@@ -12,6 +12,7 @@
 - **Om HappySend**: Integrert seksjon i innstillinger med informasjon om misjon, visjon og skaper.
 - **Responsivt Design**: Optimalisert for en "null-scroll"-opplevelse på alle skjermstørrelser.
 - **Mørk/Lys Modus**: Full støtte for systemvalgt eller manuelt tema.
+- **Timed opening**: Set a date and time for the card to be opened (e.g. "Don't open until Christmas Eve!").**
 
 ## 🛠 Teknologi
 

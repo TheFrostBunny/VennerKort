@@ -54,7 +54,9 @@ export default function ReceivePage() {
       card.emoji, // index 8
       card.showIndicator ? 1 : 0, // index 9
       CONFETTI_MAP.indexOf(card.confettiType || 'standard'), // index 10
-      ENVELOPES_MAP.indexOf(card.envelopeStyle || 'classic') // index 11
+      CONFETTI_MAP.indexOf(card.confettiType || 'standard'), // index 10
+      ENVELOPES_MAP.indexOf(card.envelopeStyle || 'classic'), // index 11
+      card.unlockAt || null // index 12
     ];
     
     try {

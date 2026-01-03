@@ -69,7 +69,14 @@
     "receive_title": "Received Cards",
     "history_title": "My History",
     "about_title": "About HappySend",
-    "view_changes": "View changes"
+    "view_changes": "View changes",
+    "time_lock_title": "Time Lock",
+    "time_lock_desc": "The recipient cannot open the card before this time.",
+    "locked_until": "Locked until",
+    "card_is_locked": "This card is locked!",
+    "opens_in": "Opens in",
+    "time_remaining": "Card opens:",
+    "return_later": "Come back later to see the greeting!"
   },
   "about": {
     "subtitle": "Your destination for modern digital greetings",
@@ -78,10 +85,15 @@
     "mission_desc": "We want to make it easier and more magical to show you care, regardless of distance.",
     "creator_title": "The Creator",
     "creator_desc": "HappySend is developed with ❤️ to create small moments of joy in everyday life.",
-    "version": "HappySend v1.1.0 (PWA Edition)"
+    "version": "HappySend v1.2.0"
   },
   "changelog": {
     "title": "Changelog",
+
+    "v1_2_0": {
+      "date": "January 4, 2026",
+      "desc": "New card designs added! Choose from several unique styles to make your greeting even more special. Added time lock feature on cards. Performance improvements. Added email login option."
+    },
     "v1_1_0": {
       "date": "January 3, 2026",
       "desc": "Official PWA Support! Install HappySend on your phone. Plus: Enhanced envelope design & draft saving."
