@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nProvider } from '@/lib/i18n/i18n-context';
+import PWARegistration from "@/components/pwa-registration";
 
 const fontSans = Figtree({ subsets: ['latin'], variable: '--font-sans' });
 const dancingScript = Dancing_Script({ subsets: ['latin'], variable: '--font-dancing-script' });
@@ -13,11 +14,27 @@ const quicksand = Quicksand({ subsets: ['latin'], variable: '--font-quicksand' }
 
 export const metadata: Metadata = {
   title: "HappySend",
-  description: "Send physical cards with ease.",
-    generator: 'v0.app',
-    icons: {
-      icon: '/logo.png',
-    },
+  description: "Send personlige digitale hilsener med 3D-konvolutter!",
+  generator: 'HappySend',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'HappySend',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
+};
+
+export const viewport = {
+  themeColor: '#ec4899',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
@@ -46,6 +63,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <I18nProvider>
+            <PWARegistration />
             {children}
           </I18nProvider>
         </ThemeProvider>
