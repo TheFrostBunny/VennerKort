@@ -50,7 +50,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { HugeiconsIcon } from "@hugeicons/react"
-import { MailSend01Icon, SentIcon, MailReceive01Icon, WorkHistoryIcon, UnfoldMoreIcon, ArrowRight01Icon, Globe02Icon, Settings02Icon } from "@hugeicons/core-free-icons"
+import { MailSend01Icon, SentIcon, MailReceive01Icon, WorkHistoryIcon, UnfoldMoreIcon, ArrowRight01Icon, Globe02Icon, Settings02Icon, Mail01Icon } from "@hugeicons/core-free-icons"
 import { Heart, Settings as SettingsIcon } from 'lucide-react'
 import { useI18n } from '@/lib/i18n/i18n-context'
 import { cn } from '@/lib/utils'
@@ -76,7 +76,7 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
         title: t('card_app.card'),
         url: "#",
         icon: (
-          <HugeiconsIcon icon={MailSend01Icon} strokeWidth={2} />
+          <HugeiconsIcon icon={Mail01Icon} strokeWidth={2} />
         ),
         isActive: true,
         items: [

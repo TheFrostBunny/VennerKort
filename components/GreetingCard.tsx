@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkle, MailOpen, Mail, Lock as LockIcon } from 'lucide-react';
+import { Heart, Sparkle, MailOpen, Mail, Lock as LockIcon, RefreshCcw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CardState } from './CardCustomizer';
 import confetti from 'canvas-confetti';
+import { useI18n } from '@/lib/i18n/i18n-context';
 
 interface GreetingCardProps {
   state: CardState;
@@ -15,22 +16,50 @@ interface GreetingCardProps {
 
 export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = false, onOpen }) => {
   const [isOpen, setIsOpen] = useState(!isViewOnly);
+  const [isFlipped, setIsFlipped] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { t } = useI18n();
+
+  // Sync state when entering view-only/preview mode
+  useEffect(() => {
+    if (isViewOnly) {
+      setIsOpen(false);
+      setIsFlipped(true); // Show the Priority Mail side first!
+    } else {
+      setIsOpen(true);
+    }
+  }, [isViewOnly]);
 
   const handleOpen = () => {
     if (!isOpen) {
       setIsOpen(true);
       onOpen?.();
-      confetti({
+
+      const config: any = {
         particleCount: 150,
         spread: 100,
         origin: { y: 0.6 },
-        colors: ['#ff69b4', '#ffb6c1', '#dda0dd', '#ff1493', '#f472b6', '#db2777'],
         ticks: 300,
         gravity: 0.8,
         scalar: 1.2
-      });
+      };
+
+      if (state.confettiType === 'hearts') {
+        config.colors = ['#ff69b4', '#ffb6c1', '#ff1493'];
+        config.shapes = ['circle'];
+      } else if (state.confettiType === 'stars') {
+        config.colors = ['#ffd700', '#daa520', '#fffacd'];
+      } else if (state.confettiType === 'snow') {
+        config.colors = ['#ffffff', '#f0f8ff', '#e0ffff'];
+        config.scalar = 0.7;
+        config.gravity = 0.5;
+        config.particleCount = 200;
+      } else {
+        config.colors = ['#ff69b4', '#ffb6c1', '#dda0dd', '#ff1493', '#f472b6', '#db2777'];
+      }
+
+      confetti(config);
     }
   };
 
@@ -132,21 +161,101 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
               setIsHovered(false);
               setMousePosition({ x: 0, y: 0 });
             }}
-            onClick={handleOpen}
             onMouseMove={handleMouseMove}
           >
-            {/* Envelope Back */}
-            <div className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-xl shadow-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800">
-               {/* Paper Texture Overlay */}
-               <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }} />
-               
-               {/* Envelope Flap (Static back part) */}
-               <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[142%] h-[142%] bg-zinc-50 dark:bg-zinc-800/10 rotate-45 transform origin-top border-b border-zinc-200/50 dark:border-zinc-700/50" />
-               </div>
+            <motion.div 
+              className="w-full h-full relative"
+              style={{ transformStyle: 'preserve-3d' }}
+              animate={{ rotateY: isFlipped ? 180 : 0 }}
+              transition={{ duration: 0.6, type: 'spring', damping: 20, stiffness: 100 }}
+              onClick={() => {
+                if (isFlipped) {
+                  setIsFlipped(false);
+                  setTimeout(() => handleOpen(), 150);
+                } else {
+                  handleOpen();
+                }
+              }}
+            >
+              {/* ENVELOPE FRONT (Address Side) - Based on user image */}
+              <div 
+                className={cn(
+                  "absolute inset-0 rounded-[2.5rem] shadow-2xl overflow-hidden border transition-colors",
+                  state.envelopeStyle === 'modern' ? "bg-zinc-900 border-zinc-800" : 
+                  state.envelopeStyle === 'vintage' ? "bg-[#f4e4bc] border-[#d4c49c]" :
+                  "bg-white border-zinc-100"
+                )}
+                style={{ transform: 'rotateY(180deg) translateZ(1px)', backfaceVisibility: 'hidden' }}
+              >
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }} />
+                
+                {/* Stamp Box - Matching the dashed rectangle with dots from image */}
+                <div 
+                  className="absolute top-12 right-12 w-20 h-24 border-[3px] border-dotted flex items-center justify-center rotate-3"
+                  style={{ borderColor: state.textColor, opacity: 0.5 }}
+                >
+                  <div className="relative group/stamp">
+                    {state.type === 'love' ? (
+                      <Heart className="w-10 h-10" style={{ color: state.textColor, fill: `${state.textColor}40` }} />
+                    ) : state.type === 'crush' ? (
+                      <LockIcon className="w-10 h-10" style={{ color: state.textColor }} />
+                    ) : (
+                      <Mail className="w-10 h-10" style={{ color: state.textColor }} />
+                    )}
+                  </div>
+                  {/* Corner dots */}
+                  <div className="absolute -top-[5px] -left-[5px] w-3 h-3 rounded-full" style={{ backgroundColor: state.textColor }} />
+                  <div className="absolute -top-[5px] -right-[5px] w-3 h-3 rounded-full" style={{ backgroundColor: state.textColor }} />
+                  <div className="absolute -bottom-[5px] -left-[5px] w-3 h-3 rounded-full" style={{ backgroundColor: state.textColor }} />
+                  <div className="absolute -bottom-[5px] -right-[5px] w-3 h-3 rounded-full" style={{ backgroundColor: state.textColor }} />
+                </div>
 
-               {/* Design Elements */}
-               <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 z-10">
+                {/* Address Lines - Matching the user image */}
+                <div className="absolute top-[55%] left-12 md:left-24 w-[60%] space-y-4">
+                  <div className="relative h-[2px] w-full" style={{ backgroundColor: state.textColor, opacity: 0.2 }}>
+                    {state.senderName && (
+                      <span className="absolute -top-6 left-0 text-[10px] md:text-sm font-bold italic tracking-tight" style={{ color: state.textColor, opacity: 0.7 }}>
+                        Fra: {state.senderName}
+                      </span>
+                    )}
+                  </div>
+                  <div className="h-[2px] w-[80%]" style={{ backgroundColor: state.textColor, opacity: 0.2 }} />
+                  <div className="h-[2px] w-[60%]" style={{ backgroundColor: state.textColor, opacity: 0.2 }} />
+                </div>
+
+                {/* PRIORITY MAIL Text */}
+                <div className="absolute bottom-12 left-12">
+                  <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] opacity-90" style={{ color: state.textColor }}>Priority Mail</span>
+                </div>
+              </div>
+
+              {/* Envelope Back (Flap Side) */}
+              <div 
+                className={cn(
+                  "absolute inset-0 rounded-[2.5rem] shadow-2xl overflow-hidden border transition-colors",
+                  state.envelopeStyle === 'modern' ? "bg-zinc-900 border-zinc-800" : 
+                  state.envelopeStyle === 'vintage' ? "bg-[#f4e4bc] border-[#d4c49c]" :
+                  "bg-white border-zinc-100"
+                )}
+                style={{ backfaceVisibility: 'hidden' }}
+              >
+                {/* Paper Texture Overlay */}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }} />
+                
+                {/* Envelope Flap */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[142%] h-[142%] rotate-45 transform origin-top border-b transition-colors"
+                  style={{
+                    backgroundColor: state.envelopeStyle === 'modern' ? 'rgba(39, 39, 42, 0.3)' : 
+                                    state.envelopeStyle === 'vintage' ? 'rgba(228, 212, 172, 0.5)' : 
+                                    'rgba(244, 244, 245, 0.5)',
+                    borderColor: state.envelopeStyle === 'modern' ? 'rgba(63, 63, 70, 0.5)' : 
+                                 state.envelopeStyle === 'vintage' ? 'rgba(196, 180, 140, 0.5)' : 
+                                 'rgba(228, 228, 231, 0.5)'
+                  }}
+                />
+
+                {/* Design Elements */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 z-10">
                   <motion.div
                     animate={{ 
                       y: [0, -10, 0],
@@ -158,39 +267,33 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
                   >
                     <div className="absolute inset-0 bg-pink-400 blur-2xl opacity-20 scale-150" />
                     {state.type === 'love' ? (
-                      <Heart className="w-20 h-20 text-pink-500 fill-pink-500 relative z-10" />
+                      <Heart className="w-16 h-16 text-pink-500 fill-pink-500 relative z-10" />
                     ) : state.type === 'crush' ? (
-                      <LockIcon className="w-20 h-20 text-purple-500 relative z-10" />
+                      <LockIcon className="w-16 h-16 text-purple-500 relative z-10" />
                     ) : (
-                      <Mail className="w-20 h-20 text-blue-500 relative z-10" />
+                      <Mail className="w-16 h-16 text-blue-500 relative z-10" />
                     )}
                   </motion.div>
 
                   <div className="text-center px-8">
-                    <h3 className="text-2xl font-black text-zinc-900 dark:text-zinc-100 mb-2 tracking-tight">
-                      {isViewOnly ? `Du har fått et kort!` : 'Klikk for å se kortet'}
+                    <h3 className={cn(
+                      "text-xl font-black mb-2 tracking-tight transition-colors",
+                      state.envelopeStyle === 'modern' ? "text-zinc-100" : "text-zinc-900"
+                    )}>
+                      {isViewOnly ? t('customizer.receive_title') || 'Du har fått et kort!' : 'Klikk for å se kortet'}
                     </h3>
-                    <p className="text-zinc-500 dark:text-zinc-400 font-medium">
+                    <p className={cn(
+                      "text-sm font-medium transition-colors",
+                      state.envelopeStyle === 'modern' ? "text-zinc-400" : "text-zinc-500"
+                    )}>
                       {isViewOnly ? `Spesielt levert fra ${state.senderName || 'en venn'}` : 'Se hvordan din hilsen ser ut'}
                     </p>
                   </div>
-               </div>
+                </div>
+              </div>
+            </motion.div>
 
-               {/* Airmail Stripes */}
-               <div className="absolute bottom-0 left-0 w-full h-4 flex opacity-30">
-                  {[...Array(12)].map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={cn(
-                        "flex-1 -skew-x-12",
-                        i % 2 === 0 ? "bg-red-400/50" : "bg-blue-400/50"
-                      )} 
-                    />
-                  ))}
-               </div>
-            </div>
-
-            {/* Pulsing opening indicator - Only show on hover and if enabled */}
+            {/* Indicator */}
             <AnimatePresence>
               {isHovered && state.showIndicator && (
                 <motion.div 
@@ -224,14 +327,21 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
           >
             {/* Luxe Card Elements */}
             <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }} />
-            
-            {/* Ambient Shadow/Highlight */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/10 pointer-events-none" />
+            
+            {/* Postcard Aesthetic Elements */}
+            <div className="absolute top-8 left-8 flex flex-col items-start gap-1 opacity-40">
+               <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: state.textColor }}>Priority Mail</span>
+               <div className="w-12 h-0.5 bg-current" style={{ color: state.textColor }} />
+            </div>
+
+            <div className="absolute top-8 right-8 w-16 h-20 border-2 border-dotted border-current opacity-30 flex items-center justify-center rotate-3" style={{ color: state.textColor }}>
+               {state.type === 'love' ? <Heart className="w-8 h-8 fill-current" /> : state.type === 'crush' ? <LockIcon className="w-8 h-8" /> : <Mail className="w-8 h-8" />}
+            </div>
 
             {/* Background Effects */}
             {getEffectOverlay()}
             
-            {/* High-End Border */}
             {state.border !== 'none' && (
               <div 
                 className={cn("absolute inset-6 rounded-[1.5rem] pointer-events-none transition-all", borderStyles[state.border || 'none'])} 
@@ -252,15 +362,17 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
 
               <div className="space-y-6">
                 {state.senderName && (
-                  <motion.p 
+                  <motion.div 
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="text-xl font-bold italic tracking-wide"
-                    style={{ color: state.textColor, opacity: 0.7 }}
+                    className="flex flex-col items-center gap-2"
                   >
-                    Kjære deg, hilsen {state.senderName}
-                  </motion.p>
+                    <p className="text-xl font-bold italic tracking-wide" style={{ color: state.textColor, opacity: 0.7 }}>
+                      Kjære deg, hilsen {state.senderName}
+                    </p>
+                    <div className="w-24 h-[1px] bg-current opacity-20" style={{ color: state.textColor }} />
+                  </motion.div>
                 )}
                 
                 <motion.h2 
@@ -275,7 +387,13 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
               </div>
             </div>
 
-            {/* Back to envelope for creators */}
+            {/* Postcard Lines - Bottom Right Decor */}
+            <div className="absolute bottom-12 right-12 w-32 space-y-3 opacity-20 pointer-events-none">
+               <div className="h-[1px] w-full bg-current" style={{ color: state.textColor }} />
+               <div className="h-[1px] w-[80%] bg-current ml-auto" style={{ color: state.textColor }} />
+               <div className="h-[1px] w-[60%] bg-current ml-auto" style={{ color: state.textColor }} />
+            </div>
+
             {!isViewOnly && (
               <motion.button 
                 initial={{ opacity: 0 }}
@@ -288,13 +406,34 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
               </motion.button>
             )}
 
-            {/* Corner Decorators - Only show if enabled */}
             {state.showIndicator && (
               <>
                 <div className="absolute top-0 left-0 p-8 text-current opacity-10 pointer-events-none" style={{ color: state.textColor }}><Sparkle className="w-12 h-12" /></div>
                 <div className="absolute bottom-0 right-0 p-8 text-current opacity-10 pointer-events-none" style={{ color: state.textColor }}><Sparkle className="w-12 h-12" /></div>
               </>
             )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Flip Button */}
+      <AnimatePresence>
+        {!isOpen && isViewOnly && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="absolute bottom-6 right-6 z-40"
+          >
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFlipped(!isFlipped);
+              }}
+              className="p-3.5 rounded-full bg-zinc-900 dark:bg-zinc-900 shadow-2xl border-2 border-white dark:border-white hover:scale-110 active:scale-95 transition-all text-pink-500 group"
+            >
+              <RefreshCcw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

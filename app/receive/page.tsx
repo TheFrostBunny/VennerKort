@@ -30,18 +30,31 @@ export default function ReceivePage() {
   };
 
   const handleOpen = (card: SavedCard) => {
-    // Generate the URL using the same logic as handleShare in CardApp
+    const TYPE_MAP = ['friend', 'love', 'crush'];
+    const FONT_MAP = [
+      'var(--font-dancing-script, cursive)',
+      'var(--font-pacifico, cursive)',
+      'var(--font-quicksand, sans-serif)',
+      'var(--font-inter, sans-serif)'
+    ];
+    const BORDER_MAP = ['none', 'double', 'dashed', 'glow'];
+    const EFFECT_MAP = ['none', 'hearts', 'sparkles', 'dots', 'waves'];
+    const CONFETTI_MAP = ['standard', 'hearts', 'stars', 'snow'];
+    const ENVELOPES_MAP = ['classic', 'modern', 'vintage'];
+
     const data = [
-      card.type === 'friend' ? 0 : card.type === 'love' ? 1 : 2,
-      card.message,
-      card.senderName,
-      card.backgroundColor,
-      card.textColor,
-      card.font, 
-      card.border,
-      card.effect,
-      card.emoji,
-      card.showIndicator ? 1 : 0
+      card.senderName, // index 0
+      TYPE_MAP.indexOf(card.type), // index 1
+      card.message, // index 2
+      card.backgroundColor.replace('#', ''), // index 3
+      card.textColor.replace('#', ''), // index 4
+      FONT_MAP.indexOf(card.font), // index 5
+      BORDER_MAP.indexOf(card.border), // index 6
+      EFFECT_MAP.indexOf(card.effect), // index 7
+      card.emoji, // index 8
+      card.showIndicator ? 1 : 0, // index 9
+      CONFETTI_MAP.indexOf(card.confettiType || 'standard'), // index 10
+      ENVELOPES_MAP.indexOf(card.envelopeStyle || 'classic') // index 11
     ];
     
     try {

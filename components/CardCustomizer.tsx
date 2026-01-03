@@ -11,7 +11,8 @@ import {
   Lock as LockIcon,
   Share2,
   RefreshCcw,
-  Check
+  Check,
+  Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,12 +40,15 @@ export interface CardState {
   effect: string;
   emoji: string;
   showIndicator: boolean;
+  confettiType: 'standard' | 'hearts' | 'stars' | 'snow';
+  envelopeStyle: 'classic' | 'modern' | 'vintage';
 }
 
 interface CardCustomizerProps {
   state: CardState;
   onChange: (newState: Partial<CardState>) => void;
   onShare: () => void;
+  onPreview?: () => void;
   onRandomMessage: () => void;
   isLinkCopied: boolean;
 }
@@ -76,6 +80,7 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
   state,
   onChange,
   onShare,
+  onPreview,
   onRandomMessage,
   isLinkCopied,
 }) => {
@@ -94,6 +99,19 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
     { name: t('customizer.sparkles'), value: 'sparkles' },
     { name: t('customizer.dots'), value: 'dots' },
     { name: t('customizer.waves'), value: 'waves' },
+  ];
+
+  const CONFETTI = [
+    { name: t('customizer.confetti_standard'), value: 'standard' },
+    { name: t('customizer.confetti_hearts'), value: 'hearts' },
+    { name: t('customizer.confetti_stars'), value: 'stars' },
+    { name: t('customizer.confetti_snow'), value: 'snow' },
+  ];
+
+  const ENVELOPES = [
+    { name: t('customizer.env_classic'), value: 'classic' },
+    { name: t('customizer.env_modern'), value: 'modern' },
+    { name: t('customizer.env_vintage'), value: 'vintage' },
   ];
 
   return (
@@ -259,6 +277,35 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
           </Select>
         </div>
 
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1.5">
+            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">{t('customizer.confetti')}</Label>
+            <Select value={state.confettiType} onValueChange={(v) => onChange({ confettiType: v as any })}>
+              <SelectTrigger className="rounded-xl h-8 text-[10px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {CONFETTI.map(c => (
+                  <SelectItem key={c.value} value={c.value} className="text-[10px]">{c.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">{t('customizer.envelope_style')}</Label>
+            <Select value={state.envelopeStyle} onValueChange={(v) => onChange({ envelopeStyle: v as any })}>
+              <SelectTrigger className="rounded-xl h-8 text-[10px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {ENVELOPES.map(e => (
+                  <SelectItem key={e.value} value={e.value} className="text-[10px]">{e.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
         <div className="flex items-center justify-between py-1 px-1">
           <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
             {t('customizer.show_indicator')}
@@ -280,7 +327,16 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+      <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex flex-col gap-2">
+        <Button 
+          variant="outline"
+          onClick={onPreview}
+          className="w-full rounded-2xl h-11 text-xs font-black uppercase tracking-widest transition-all border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800"
+        >
+          <span className="flex items-center gap-2">
+            <Eye className="w-4 h-4" /> {t('card_app.preview')}
+          </span>
+        </Button>
         <Button 
           onClick={onShare}
           className={cn(

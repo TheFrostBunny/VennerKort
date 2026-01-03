@@ -52,6 +52,15 @@
     "dashed": "Dashed line",
     "double": "Double border",
     "glow": "Glowing light",
+    "confetti": "Confetti Type",
+    "confetti_standard": "Standard colors",
+    "confetti_hearts": "Only hearts",
+    "confetti_stars": "Gold stars",
+    "confetti_snow": "Winter snow",
+    "envelope_style": "Envelope Style",
+    "env_classic": "Classic white",
+    "env_modern": "Modern dark",
+    "env_vintage": "Vintage paper",
     "del_kort": "Share Card",
     "settings": "Settings",
     "settings_desc": "Manage your preferences and settings.",
@@ -69,13 +78,13 @@
     "mission_desc": "We want to make it easier and more magical to show you care, regardless of distance.",
     "creator_title": "The Creator",
     "creator_desc": "HappySend is developed with ❤️ to create small moments of joy in everyday life.",
-    "version": "HappySend v1.0.1 (VennerKort Upgrade)"
+    "version": "HappySend v1.1.0"
   },
   "changelog": {
     "title": "Changelog",
-    "v1_0_1": {
+    "v1_1_0": {
       "date": "January 3, 2026",
-      "desc": "Small fixes and i18n refinements."
+      "desc": "Small fixes and i18n updates."
     },
     "v1_0_0": {
       "date": "January 3, 2026",
@@ -89,7 +98,7 @@
   "nav": {
     "platform": "Platform",
     "product": "Services",
-    "send": "Send",
+    "send": "Envelope",
     "receive": "Receive",
     "history": "History",
     "language": "Language",
