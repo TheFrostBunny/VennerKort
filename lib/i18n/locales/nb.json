@@ -69,7 +69,14 @@
     "receive_title": "Mottatte Kort",
     "history_title": "Min Historikk",
     "about_title": "Om HappySend",
-    "view_changes": "Se endringer"
+    "view_changes": "Se endringer",
+    "time_lock_title": "Tidslås",
+    "time_lock_desc": "Mottakeren kan ikke åpne kortet før dette tidspunktet.",
+    "locked_until": "Låst til",
+    "card_is_locked": "Dette kortet er låst!",
+    "opens_in": "Åpnes om",
+    "time_remaining": "Kortet kan åpnes:",
+    "return_later": "Kom tilbake senere for å se hilsenen!"
   },
   "about": {
     "subtitle": "Din destinasjon for moderne digitale hilsener",
@@ -78,10 +85,15 @@
     "mission_desc": "Vi ønsker å gjøre det enklere og mer magisk å vise at man bryr seg, uansett avstand.",
     "creator_title": "Skaperen",
     "creator_desc": "HappySend er utviklet med ❤️ for å skape små øyeblikk av glede i hverdagen.",
-    "version": "HappySend v1.1.0 (PWA Edition)"
+    "version": "HappySend v1.2.0"
   },
   "changelog": {
     "title": "Endringslogg",
+    
+    "v1_2_0": {
+      "date": "4. januar 2026",
+      "desc": "Nye kortdesign lagt til! Velg mellom flere unike stiler for å gjøre hilsenen din enda mer spesiell. og lagt til mulighet for tidslås på kort. og noen ytelsesforbedringer. og lagt til mulig til å login inn med Epost."
+    },
     "v1_1_0": {
       "date": "3. januar 2026",
       "desc": "Offisiell PWA-støtte! Installer HappySend som app på mobilen. Pluss: Bedre konvolutt-design & autolagring."

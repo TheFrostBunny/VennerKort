@@ -13,6 +13,14 @@ export default function ChangelogPage() {
 
   const releases = [
     {
+      version: "v1.2.0",
+      date: t('changelog.v1_2_0.date'),
+      description: t('changelog.v1_2_0.desc'),
+      type: 'major',
+      icon: <Sparkles className="w-4 h-4" />,
+      color: 'text-green-500 bg-green-50 dark:bg-green-500/10'
+    },
+    {
       version: "v1.1.0",
       date: t('changelog.v1_1_0.date'),
       description: t('changelog.v1_1_0.desc'),

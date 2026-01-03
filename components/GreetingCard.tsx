@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkle, MailOpen, Mail, Lock as LockIcon, RefreshCcw } from 'lucide-react';
+import { Heart, Sparkle, MailOpen, Mail, Lock as LockIcon, RefreshCcw, Clock, Timer } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CardState } from './CardCustomizer';
 import confetti from 'canvas-confetti';
@@ -33,6 +33,13 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
 
   const handleOpen = () => {
     if (!isOpen) {
+      // Check for time lock
+      if (state.unlockAt && new Date(state.unlockAt) > new Date()) {
+        const unlockDate = new Date(state.unlockAt);
+        // Shake animation or toast could go here, but for now we Rely on the UI showing it's locked
+        return;
+      }
+
       setIsOpen(true);
       onOpen?.();
 
@@ -253,7 +260,6 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
                                  'rgba(228, 228, 231, 0.5)'
                   }}
                 />
-
                 {/* Design Elements */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 z-10">
                   <motion.div
@@ -266,7 +272,16 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
                     className="relative"
                   >
                     <div className="absolute inset-0 bg-pink-400 blur-2xl opacity-20 scale-150" />
-                    {state.type === 'love' ? (
+                    
+                    {/* Icon Selection Logic */}
+                    {state.unlockAt && new Date(state.unlockAt) > new Date() ? (
+                       <div className="relative">
+                         <LockIcon className="w-16 h-16 text-zinc-400 fill-zinc-400/20 relative z-10" />
+                         <div className="absolute -bottom-2 -right-2 bg-pink-500 rounded-full p-1 border-2 border-white">
+                            <Clock className="w-4 h-4 text-white" />
+                         </div>
+                       </div>
+                    ) : state.type === 'love' ? (
                       <Heart className="w-16 h-16 text-pink-500 fill-pink-500 relative z-10" />
                     ) : state.type === 'crush' ? (
                       <LockIcon className="w-16 h-16 text-purple-500 relative z-10" />
@@ -276,18 +291,40 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
                   </motion.div>
 
                   <div className="text-center px-8">
-                    <h3 className={cn(
-                      "text-xl font-black mb-2 tracking-tight transition-colors",
-                      state.envelopeStyle === 'modern' ? "text-zinc-100" : "text-zinc-900"
-                    )}>
-                      {isViewOnly ? t('customizer.receive_title') || 'Du har fått et kort!' : 'Klikk for å se kortet'}
-                    </h3>
-                    <p className={cn(
-                      "text-sm font-medium transition-colors",
-                      state.envelopeStyle === 'modern' ? "text-zinc-400" : "text-zinc-500"
-                    )}>
-                      {isViewOnly ? `Spesielt levert fra ${state.senderName || 'en venn'}` : 'Se hvordan din hilsen ser ut'}
-                    </p>
+                    {state.unlockAt && new Date(state.unlockAt) > new Date() ? (
+                      <>
+                        <h3 className={cn(
+                          "text-lg font-black mb-1 tracking-tight transition-colors flex items-center justify-center gap-2",
+                          state.envelopeStyle === 'modern' ? "text-zinc-100" : "text-zinc-900"
+                        )}>
+                          {t('customizer.card_is_locked')}
+                        </h3>
+                        <div className={cn(
+                          "flex flex-col items-center gap-1 text-sm font-medium",
+                           state.envelopeStyle === 'modern' ? "text-zinc-400" : "text-zinc-500"
+                        )}>
+                          <span className="opacity-80">{t('customizer.opens_in')}:</span>
+                          <span className="font-mono font-bold bg-black/5 dark:bg-white/10 px-2 py-0.5 rounded text-xs">
+                             {new Date(state.unlockAt).toLocaleString()}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <h3 className={cn(
+                          "text-xl font-black mb-2 tracking-tight transition-colors",
+                          state.envelopeStyle === 'modern' ? "text-zinc-100" : "text-zinc-900"
+                        )}>
+                          {isViewOnly ? t('customizer.receive_title') || 'Du har fått et kort!' : 'Klikk for å se kortet'}
+                        </h3>
+                        <p className={cn(
+                          "text-sm font-medium transition-colors",
+                          state.envelopeStyle === 'modern' ? "text-zinc-400" : "text-zinc-500"
+                        )}>
+                          {isViewOnly ? `Spesielt levert fra ${state.senderName || 'en venn'}` : 'Se hvordan din hilsen ser ut'}
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-# 💌 HappySend v1.1.0
+# 💌 HappySend v1.2.0
 
 **HappySend** (VennerKort Upgrade) er en moderne web-applikasjon for å lage, tilpasse og sende digitale hilsener med en "WOW"-faktor. Appen er bygget for å gi en følelse av å åpne et ekte, fysisk kort, komplett med 3D-konvolutt, animasjoner og konfetti.
 
@@ -12,6 +12,7 @@
 - **Om HappySend**: Integrert seksjon i innstillinger med informasjon om misjon, visjon og skaper.
 - **Responsivt Design**: Optimalisert for en "null-scroll"-opplevelse på alle skjermstørrelser.
 - **Mørk/Lys Modus**: Full støtte for systemvalgt eller manuelt tema.
+- **Timed opening**: Set a date and time for the card to be opened (e.g. "Don't open until Christmas Eve!").**
 
 ## 🛠 Teknologi
 

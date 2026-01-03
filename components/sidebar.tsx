@@ -55,6 +55,9 @@ import { MailSend01Icon, SentIcon, MailReceive01Icon, WorkHistoryIcon, UnfoldMor
 import { Heart, Settings as SettingsIcon } from 'lucide-react'
 import { useI18n } from '@/lib/i18n/i18n-context'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/lib/appwrite/auth-context';
+import { AuthModal } from '@/components/auth/AuthModal';
+import { LogOut } from 'lucide-react';
 
 export function SidebarIconExample({ children }: { children?: React.ReactNode }) {
   const { lang, setLang, t } = useI18n()
@@ -66,12 +69,18 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
     setCurrentPath(window.location.pathname)
   }, [])
 
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
   const data = {
-    user: {
-      name: "shadcn",
-      email: "m@example.com",
-      avatar: "/avatars/shadcn.jpg",
-    },
+    // user: {
+    //   name: "shadcn",
+    //   email: "m@example.com",
+    //   avatar: "/avatars/shadcn.jpg",
+    // },
     navMain: [
       {
         title: t('card_app.card'),
@@ -172,71 +181,75 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton
-                    size="lg"
-                    className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
-                  >
-                    <Avatar>
-                      <AvatarImage
-                        src={data.user.avatar}
-                        alt={data.user.name}
-                      />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                    </Avatar>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">
-                        {data.user.name}
-                      </span>
-                      <span className="truncate text-xs">
-                        {data.user.email}
-                      </span>
-                    </div>
-                    <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel>
-                      <Item size="xs">
-                        <ItemMedia>
-                          <Avatar>
-                            <AvatarImage
-                              src={data.user.avatar}
-                              alt={data.user.name}
-                            />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                        </ItemMedia>
-                        <ItemContent>
-                          <ItemTitle>{data.user.name}</ItemTitle>
-                          <ItemDescription> {data.user.email}</ItemDescription>
-                        </ItemContent>
-                      </Item>
-                    </DropdownMenuLabel>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                   <DropdownMenuGroup>
-                    {/*<DropdownMenuItem asChild>
-                      <Link href="/account">Account</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/billing">Billing</Link>
-                    </DropdownMenuItem> */}
-                    <DropdownMenuItem asChild>
-                      <Link href="/settings" className="flex items-center gap-2">
-                        <SettingsIcon className="size-4" />
-                        {t('customizer.settings')}
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  {/* <DropdownMenuGroup>
-                    <DropdownMenuItem>Log out</DropdownMenuItem>
-                  </DropdownMenuGroup> */}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuButton
+                      size="lg"
+                      className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
+                    >
+                      <Avatar className="h-8 w-8 rounded-lg">
+                        <AvatarFallback className="rounded-lg uppercase bg-pink-100 text-pink-600 font-bold">
+                          {user.name.substring(0, 2)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="grid flex-1 text-left text-sm leading-tight">
+                        <span className="truncate font-medium">
+                          {user.name}
+                        </span>
+                        <span className="truncate text-xs">
+                          {user.email}
+                        </span>
+                      </div>
+                      <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} />
+                    </SidebarMenuButton>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel>
+                        <Item size="xs">
+                          <ItemMedia>
+                            <Avatar>
+                              <AvatarFallback className="bg-pink-100 text-pink-600 font-bold">
+                                {user.name.substring(0, 2).toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                          </ItemMedia>
+                          <ItemContent>
+                            <ItemTitle>{user.name}</ItemTitle>
+                            <ItemDescription> {user.email}</ItemDescription>
+                          </ItemContent>
+                        </Item>
+                      </DropdownMenuLabel>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                     <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link href="/settings" className="flex items-center gap-2">
+                          <SettingsIcon className="size-4" />
+                          {t('customizer.settings')}
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem onClick={handleLogout} className="text-red-500 hover:text-red-600 cursor-pointer">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Logg ut
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <div className="p-2">
+                   <AuthModal>
+                     <Button variant="outline" className="w-full justify-start gap-2 border-dashed">
+                       <HugeiconsIcon icon={Settings02Icon} className="w-4 h-4" />
+                       Logg inn / Registrer
+                     </Button>
+                   </AuthModal>
+                </div>
+              )}
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>

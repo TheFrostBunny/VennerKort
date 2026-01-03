@@ -12,7 +12,6 @@ Her er en liste over spennende funksjoner som kan løfte HappySend (VennerKort) 
 ## 🛠 Funksjonalitet
 
 - **Gruppekort**: La flere personer legge inn hver sin hilsen i det samme kortet (perfekt for bursdager i vennegjengen eller på jobb).
-- **Tidsinnstilt åpning**: Sett en dato og klokkeslett for når kortet skal kunne åpnes (f.eks. "Ikke åpne før julaften!").
 - **Smart-tekst (AI)**: Integrer en enkel AI som kan hjelpe brukeren med å skrive den perfekte hilsenen basert på stikkord.
 - **Bildeopplasting**: La brukeren legge inn et eget bilde eller et lite galleri inni hilsenen.
 
@@ -22,6 +21,7 @@ Her er en liste over spennende funksjoner som kan løfte HappySend (VennerKort) 
 - **Mottaks-varsling**: Få en e-post eller et push-varsel når mottakeren faktisk har åpnet kortet.
 - **Kontaktliste**: Lagre favorittnavn og adresser for raskere utfylling.
 - **Mal-galleri**: Ferdige maler for spesielle dager som 17. mai, bursdager, Valentinsdag, jul, etc.
+- **Legg til profil bilde**: Gjør det mulig for brukeren å legge til et prorfil bilde til brukeren sin 
 
 ## 🚀 Teknisk / Avansert
 

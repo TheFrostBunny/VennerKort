@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { I18nProvider } from '@/lib/i18n/i18n-context';
 import PWARegistration from "@/components/pwa-registration";
+import { AuthProvider } from '@/lib/appwrite/auth-context';
+import { Toaster } from "sonner";
 
 const fontSans = Figtree({ subsets: ['latin'], variable: '--font-sans' });
 const dancingScript = Dancing_Script({ subsets: ['latin'], variable: '--font-dancing-script' });
@@ -64,8 +66,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <I18nProvider>
-            <PWARegistration />
-            {children}
+            <AuthProvider>
+              <PWARegistration />
+              {children}
+              <Toaster />
+            </AuthProvider>
           </I18nProvider>
         </ThemeProvider>
       </body>
