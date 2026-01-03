@@ -33,7 +33,7 @@ export const CardApp: React.FC<CardAppProps> = ({ isViewOnlyInitial = false }) =
     border: 'none',
     effect: 'none',
     emoji: '😊',
-    showIndicator: true,
+    showIndicator: false,
   });
 
   // Maps for ultra-compact encoding

@@ -59,7 +59,8 @@
     "language_desc": "Choose your preferred language for the application.",
     "receive_title": "Received Cards",
     "history_title": "My History",
-    "about_title": "About HappySend"
+    "about_title": "About HappySend",
+    "view_changes": "View changes"
   },
   "about": {
     "subtitle": "Your destination for modern digital greetings",
@@ -69,6 +70,21 @@
     "creator_title": "The Creator",
     "creator_desc": "HappySend is developed with ❤️ to create small moments of joy in everyday life.",
     "version": "HappySend v1.0.1 (VennerKort Upgrade)"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "v1_0_1": {
+      "date": "January 3, 2026",
+      "desc": "Small fixes and i18n refinements."
+    },
+    "v1_0_0": {
+      "date": "January 3, 2026",
+      "desc": "The big HappySend upgrade! New 3D design, ultra-fast links, and Next.js 16."
+    },
+    "v0_5_0": {
+      "date": "December 2025",
+      "desc": "Initial VennerKort concept launched."
+    }
   },
   "nav": {
     "platform": "Platform",

@@ -110,7 +110,16 @@ export const Settings: React.FC = () => {
             </div>
             
             <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center text-[10px] text-zinc-400 font-medium">
-              <span>© {new Date().getFullYear()} HappySend</span>
+              <div className="flex flex-col gap-0.5">
+                <span>© {new Date().getFullYear()} HappySend</span>
+                <button 
+                  onClick={() => window.location.href = '/changelog'}
+                  className="text-pink-500 hover:text-pink-600 font-bold flex items-center gap-1 transition-colors"
+                >
+                  <Rocket className="w-3 h-3" />
+                  {t('customizer.view_changes')}
+                </button>
+              </div>
               <span className="bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded-full uppercase tracking-widest">{t('about.version')}</span>
             </div>
           </div>

@@ -214,13 +214,13 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                     </DropdownMenuLabel>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
+                   <DropdownMenuGroup>
+                    {/*<DropdownMenuItem asChild>
                       <Link href="/account">Account</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/billing">Billing</Link>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem asChild>
                       <Link href="/settings" className="flex items-center gap-2">
                         <SettingsIcon className="size-4" />
@@ -229,9 +229,9 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
+                  {/* <DropdownMenuGroup>
                     <DropdownMenuItem>Log out</DropdownMenuItem>
-                  </DropdownMenuGroup>
+                  </DropdownMenuGroup> */}
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>

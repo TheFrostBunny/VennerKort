@@ -59,7 +59,8 @@
     "language_desc": "Velg hvilket språk du vil bruke i appen.",
     "receive_title": "Mottatte Kort",
     "history_title": "Min Historikk",
-    "about_title": "Om HappySend"
+    "about_title": "Om HappySend",
+    "view_changes": "Se endringer"
   },
   "about": {
     "subtitle": "Din destinasjon for moderne digitale hilsener",
@@ -69,6 +70,21 @@
     "creator_title": "Skaperen",
     "creator_desc": "HappySend er utviklet med ❤️ for å skape små øyeblikk av glede i hverdagen.",
     "version": "HappySend v1.0.1 (VennerKort Oppgradering)"
+  },
+  "changelog": {
+    "title": "Endringslogg",
+    "v1_0_1": {
+      "date": "3. januar 2026",
+      "desc": "Små rettelser og forbedringer i språvask og grensesnitt."
+    },
+    "v1_0_0": {
+      "date": "3. januar 2026",
+      "desc": "Den store HappySend-oppgraderingen! Nytt 3D-design, lynraske lenker og Next.js 16."
+    },
+    "v0_5_0": {
+      "date": "Desember 2025",
+      "desc": "Første konsept av VennerKort ble lansert."
+    }
   },
   "nav": {
     "platform": "Plattform",
