@@ -54,10 +54,21 @@
     "glow": "Lysende glød",
     "del_kort": "Del Kort",
     "settings": "Innstillinger",
+    "settings_desc": "Administrer dine preferanser og innstillinger.",
     "language_select": "Velg Språk",
     "language_desc": "Velg hvilket språk du vil bruke i appen.",
     "receive_title": "Mottatte Kort",
-    "history_title": "Min Historikk"
+    "history_title": "Min Historikk",
+    "about_title": "Om HappySend"
+  },
+  "about": {
+    "subtitle": "Din destinasjon for moderne digitale hilsener",
+    "description": "HappySend ble skapt med et enkelt mål: å bringe gleden ved å sende og motta kort inn i den digitale tidsalderen. Vi kombinerer moderne teknologi med den tidløse følelsen av en personlig hilsen.",
+    "mission_title": "Vårt mål",
+    "mission_desc": "Vi ønsker å gjøre det enklere og mer magisk å vise at man bryr seg, uansett avstand.",
+    "creator_title": "Skaperen",
+    "creator_desc": "HappySend er utviklet med ❤️ for å skape små øyeblikk av glede i hverdagen.",
+    "version": "HappySend v1.0.0 (VennerKort Oppgradering)"
   },
   "nav": {
     "platform": "Plattform",
@@ -65,6 +76,7 @@
     "send": "Send",
     "receive": "Motta",
     "history": "Historikk",
-    "language": "Språk"
+    "language": "Språk",
+    "about": "Om oss"
   }
 }

@@ -54,10 +54,21 @@
     "glow": "Glowing light",
     "del_kort": "Share Card",
     "settings": "Settings",
+    "settings_desc": "Manage your preferences and settings.",
     "language_select": "Select Language",
     "language_desc": "Choose your preferred language for the application.",
     "receive_title": "Received Cards",
-    "history_title": "My History"
+    "history_title": "My History",
+    "about_title": "About HappySend"
+  },
+  "about": {
+    "subtitle": "Your destination for modern digital greetings",
+    "description": "HappySend was created with a simple goal: to bring the joy of sending and receiving cards into the digital age. We combine modern technology with the timeless feeling of a personal greeting.",
+    "mission_title": "Our Mission",
+    "mission_desc": "We want to make it easier and more magical to show you care, regardless of distance.",
+    "creator_title": "The Creator",
+    "creator_desc": "HappySend is developed with ❤️ to create small moments of joy in everyday life.",
+    "version": "HappySend v1.0.0 (VennerKort Upgrade)"
   },
   "nav": {
     "platform": "Platform",
@@ -65,6 +76,7 @@
     "send": "Send",
     "receive": "Receive",
     "history": "History",
-    "language": "Language"
+    "language": "Language",
+    "about": "About Us"
   }
 }

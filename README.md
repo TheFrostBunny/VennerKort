@@ -1,6 +1,6 @@
-# 💌 HappySend
+# 💌 HappySend v1.0.0
 
-**HappySend** er en moderne web-applikasjon for å lage, tilpasse og sende digitale hilsener med en "WOW"-faktor. Appen er bygget for å gi en følelse av å åpne et ekte, fysisk kort, komplett med 3D-konvolutt, animasjoner og konfetti.
+**HappySend** (VennerKort Upgrade) er en moderne web-applikasjon for å lage, tilpasse og sende digitale hilsener med en "WOW"-faktor. Appen er bygget for å gi en følelse av å åpne et ekte, fysisk kort, komplett med 3D-konvolutt, animasjoner og konfetti.
 
 ## ✨ Egenskaper
 
