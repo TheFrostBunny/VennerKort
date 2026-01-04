@@ -16,8 +16,6 @@ Her er en liste over spennende funksjoner som kan løfte HappySend (VennerKort) 
 - **Bildeopplasting**: La brukeren legge inn et eget bilde eller et lite galleri inni hilsenen.
 
 ## 📱 Brukeropplevelse & Deling
-
-- **Direkte deling**: Knapper for å sende lenken direkte via WhatsApp, Messenger, Instagram DM eller SMS.
 - **Mottaks-varsling**: Få en e-post eller et push-varsel når mottakeren faktisk har åpnet kortet.
 - **Kontaktliste**: Lagre favorittnavn og adresser for raskere utfylling.
 - **Mal-galleri**: Ferdige maler for spesielle dager som 17. mai, bursdager, Valentinsdag, jul, etc.

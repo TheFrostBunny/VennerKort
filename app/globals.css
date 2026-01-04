@@ -125,3 +125,8 @@ body {
   @apply bg-background text-foreground;
 }
 }
+
+/* Color picker buttons - dynamic background colors */
+button[data-color] {
+  background-color: var(--dynamic-color);
+}

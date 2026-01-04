@@ -121,11 +121,15 @@
     "mission_desc": "We want to make it easier and more magical to show you care, regardless of distance.",
     "creator_title": "The Creator",
     "creator_desc": "HappySend is developed with ❤️ to create small moments of joy in everyday life.",
-    "version": "HappySend v1.2.0"
+    "version": "HappySend v1.3.0"
   },
   "changelog": {
     "title": "Changelog",
 
+    "v1_3_0": {
+      "date": "January 5, 2026",
+      "desc": "Added option to add a profile picture to your account. and fix some ui issues on mobile devices. and Added a share button to the card."
+    },
     "v1_2_0": {
       "date": "January 4, 2026",
       "desc": "New card designs added! Choose from several unique styles to make your greeting even more special. Added time lock feature on cards. Performance improvements. Added email login option."

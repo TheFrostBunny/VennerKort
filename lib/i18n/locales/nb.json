@@ -121,10 +121,15 @@
     "mission_desc": "Vi ønsker å gjøre det enklere og mer magisk å vise at man bryr seg, uansett avstand.",
     "creator_title": "Skaperen",
     "creator_desc": "HappySend er utviklet med ❤️ for å skape små øyeblikk av glede i hverdagen.",
-    "version": "HappySend v1.2.0"
+    "version": "HappySend v1.3.0"
   },
   "changelog": {
     "title": "Endringslogg",
+
+    "v1_3_0": {
+      "date": "5. januar 2026",
+      "desc": "Lagt til mulighet for å legge til et profilbilde til kontoen din. og fikset noen ui-problemer på mobilen. og lagt til en delingsknapp på kortet."
+    },
     
     "v1_2_0": {
       "date": "4. januar 2026",

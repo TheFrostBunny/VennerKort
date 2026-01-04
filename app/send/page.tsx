@@ -20,8 +20,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Settings } from 'lucide-react';
 
 function SendContent() {
   const { t } = useI18n();
@@ -36,6 +45,7 @@ function SendContent() {
   const [isPreview, setIsPreview] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [showShareDialog, setShowShareDialog] = useState(false);
+  const [showMobileCustomizer, setShowMobileCustomizer] = useState(false);
   const { user } = useAuth();
   
   const [state, setState] = useState<CardState>({
@@ -391,8 +401,53 @@ function SendContent() {
   const content = (
     <main className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-zinc-950">
       {isPreview && navHeader}
-      <div className="flex-1 flex flex-col md:flex-row min-h-0">
+      <div className="flex-1 flex flex-col md:flex-row min-h-0 relative">
         <div className="flex-1 flex flex-col items-center justify-center p-2 md:p-4 relative overflow-hidden min-h-0 bg-zinc-50/30 dark:bg-zinc-950/30">
+          {/* Mobile Customizer Button */}
+          {!isViewOnly && !isPreview && isMobile && (
+            <div className="absolute top-4 right-4 z-30">
+              <Sheet open={showMobileCustomizer} onOpenChange={setShowMobileCustomizer}>
+                <SheetTrigger asChild>
+                  <Button
+                    size="sm"
+                    className="rounded-full h-12 w-12 p-0 bg-pink-500 hover:bg-pink-600 text-white shadow-lg"
+                  >
+                    <Settings className="w-5 h-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="bottom" className="h-[85vh] max-h-[85vh] overflow-hidden p-0">
+                    <div className="h-full flex flex-col bg-white dark:bg-zinc-900">
+                    <SheetHeader className="px-4 pt-4 pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                      <SheetTitle className="flex items-center gap-2 text-lg">
+                        <Sparkles className="w-5 h-5 text-pink-500" />
+                        {t("customizer.title")}
+                      </SheetTitle>
+                      <SheetDescription className="text-xs mt-1">
+                        {t("customizer.settings_desc")}
+                      </SheetDescription>
+                    </SheetHeader>
+                    <div className="flex-1 overflow-y-auto px-4">
+                      <CardCustomizer 
+                        state={state} 
+                        onChange={updateState} 
+                        onShare={() => {
+                          handleShare();
+                          setShowMobileCustomizer(false);
+                        }}
+                        onPreview={() => {
+                          handlePreview();
+                          setShowMobileCustomizer(false);
+                        }}
+                        onRandomMessage={handleRandomMessage}
+                        isLinkCopied={isLinkCopied}
+                      />
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+          )}
+
           <div className="w-full max-w-4xl z-10 py-4 flex flex-col items-center">
             <GreetingCard 
               state={state} 
@@ -444,7 +499,8 @@ function SendContent() {
           </div>
         </div>
 
-        {!isViewOnly && !isPreview && (
+        {/* Desktop Customizer */}
+        {!isViewOnly && !isPreview && !isMobile && (
           <motion.div
             initial={{ x: 320 }}
             animate={{ x: 0 }}
