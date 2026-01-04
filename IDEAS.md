@@ -21,7 +21,6 @@ Her er en liste over spennende funksjoner som kan løfte HappySend (VennerKort) 
 - **Mottaks-varsling**: Få en e-post eller et push-varsel når mottakeren faktisk har åpnet kortet.
 - **Kontaktliste**: Lagre favorittnavn og adresser for raskere utfylling.
 - **Mal-galleri**: Ferdige maler for spesielle dager som 17. mai, bursdager, Valentinsdag, jul, etc.
-- **Legg til profil bilde**: Gjør det mulig for brukeren å legge til et prorfil bilde til brukeren sin 
 
 ## 🚀 Teknisk / Avansert
 
