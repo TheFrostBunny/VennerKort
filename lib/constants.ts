@@ -1,5 +1,7 @@
 import { CardType } from "@/components/CardCustomizer";
 
+export const STORAGE_BUCKET_PROFILE_IMAGES = 'profile-images';
+
 export const DEFAULT_MESSAGES: Record<CardType, string[]> = {
   friend: [
     "Bestevenn! Håper dagen din er like fantastisk som deg!",

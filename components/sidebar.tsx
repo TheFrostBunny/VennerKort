@@ -69,7 +69,7 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
     setCurrentPath(window.location.pathname)
   }, [])
 
-  const { user, logout } = useAuth();
+  const { user, profileImageUrl, logout } = useAuth();
 
   const handleLogout = async () => {
     await logout();
@@ -189,6 +189,7 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                       className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
                     >
                       <Avatar className="h-8 w-8 rounded-lg">
+                        <AvatarImage src={profileImageUrl || undefined} alt={user.name} />
                         <AvatarFallback className="rounded-lg uppercase bg-pink-100 text-pink-600 font-bold">
                           {user.name.substring(0, 2)}
                         </AvatarFallback>
@@ -210,6 +211,7 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                         <Item size="xs">
                           <ItemMedia>
                             <Avatar>
+                              <AvatarImage src={profileImageUrl || undefined} alt={user.name} />
                               <AvatarFallback className="bg-pink-100 text-pink-600 font-bold">
                                 {user.name.substring(0, 2).toUpperCase()}
                               </AvatarFallback>

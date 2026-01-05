@@ -50,3 +50,32 @@ export async function getCard(id: string) {
         throw error;
     }
 }
+
+export async function uploadProfileImage(userId: string, file: File, bucketId: string) {
+    try {
+        // Delete old profile image if exists (using userId as file ID)
+        try {
+            await storage.deleteFile(bucketId, userId);
+        } catch (deleteError: any) {
+            // Ignore if no old file exists (404 error)
+            if (deleteError.code !== 404) {
+                console.warn("Error deleting old profile image", deleteError);
+            }
+        }
+
+        // Upload new image
+        const uploadedFile = await storage.createFile(
+            bucketId,
+            userId, // Use userId as file ID for easy lookup
+            file
+        );
+
+        // Get file URL
+        const fileUrl = `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${bucketId}/files/${uploadedFile.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
+        
+        return fileUrl;
+    } catch (error) {
+        console.error("Failed to upload profile image", error);
+        throw error;
+    }
+}

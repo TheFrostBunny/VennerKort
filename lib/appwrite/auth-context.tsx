@@ -8,26 +8,31 @@ import { useI18n } from '../i18n/i18n-context';
 
 interface AuthContextType {
     user: Models.User<Models.Preferences> | null;
+    profileImageUrl: string | null;
     loading: boolean;
     login: (email: string, password: string) => Promise<void>;
     register: (email: string, password: string, name: string) => Promise<void>;
     logout: () => Promise<void>;
     checkSession: () => Promise<void>;
+    updateProfileImage: (imageUrl: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
     user: null,
+    profileImageUrl: null,
     loading: true,
     login: async () => {},
     register: async () => {},
     logout: async () => {},
     checkSession: async () => {},
+    updateProfileImage: async () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<Models.User<Models.Preferences> | null>(null);
+    const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     const { theme, setTheme } = useTheme();
@@ -51,6 +56,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 }
                 if (profile.themePreference && profile.themePreference !== theme) {
                     setTheme(profile.themePreference);
+                }
+                if (profile.profileImageUrl) {
+                    setProfileImageUrl(profile.profileImageUrl);
                 }
             } catch (profileError) {
                 console.warn("Could not load user profile preferences", profileError);
@@ -164,6 +172,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
             await account.deleteSession('current');
             setUser(null);
+            setProfileImageUrl(null);
         } catch (error) {
             console.error("Logout failed", error);
         } finally {
@@ -171,8 +180,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const updateProfileImage = async (imageUrl: string) => {
+        if (!user) throw new Error("User not logged in");
+        
+        try {
+            await databases.updateDocument(
+                DATABASE_ID,
+                COLLECTION_ID_USERS,
+                user.$id,
+                {
+                    profileImageUrl: imageUrl
+                }
+            );
+            setProfileImageUrl(imageUrl);
+        } catch (error) {
+            console.error("Failed to update profile image", error);
+            throw error;
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout, checkSession }}>
+        <AuthContext.Provider value={{ user, profileImageUrl, loading, login, register, logout, checkSession, updateProfileImage }}>
             {children}
         </AuthContext.Provider>
     );

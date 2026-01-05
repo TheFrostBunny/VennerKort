@@ -16,6 +16,17 @@
     "history_desc": "Se oversikt over alle kort du har sendt tidligere.",
     "no_history": "Du har ikke sendt noen kort ennå."
   },
+  "share": {
+    "title": "Del ditt kort",
+    "description": "Velg hvordan du vil dele kortet ditt",
+    "message": "Sjekk ut dette fantastiske kortet jeg har laget for deg!",
+    "copy_link": "Kopier lenke",
+    "copied": "Kopiert!",
+    "instagram_copied": "Lenke kopiert!",
+    "instagram_hint": "Lim inn lenken i Instagram DM",
+    "messenger_fallback": "Lenke kopiert! Lim inn i Messenger",
+    "native_share": "Del via app"
+  },
   "card_app": {
     "create_own": "Lag ditt eget kort",
     "share_title": "Del ditt kort",
@@ -76,7 +87,32 @@
     "card_is_locked": "Dette kortet er låst!",
     "opens_in": "Åpnes om",
     "time_remaining": "Kortet kan åpnes:",
-    "return_later": "Kom tilbake senere for å se hilsenen!"
+    "return_later": "Kom tilbake senere for å se hilsenen!",
+    "profile_image_title": "Profilbilde",
+    "profile_image_desc": "Last opp et profilbilde for å gjøre profilen din mer personlig.",
+    "profile_image_upload": "Last opp bilde",
+    "profile_image_change": "Endre bilde",
+    "profile_image_remove": "Fjern bilde",
+    "profile_image_uploading": "Laster opp...",
+    "profile_image_success": "Profilbilde oppdatert!",
+    "profile_image_removed": "Profilbilde fjernet",
+    "profile_image_error": "Kunne ikke oppdatere profilbilde",
+    "profile_image_error_desc": "Noe gikk galt. Prøv igjen senere.",
+    "profile_image_error_size": "Bildet er for stort. Maksimal størrelse er 5MB.",
+    "profile_image_error_type": "Kun kun bildefiler er tillatt.",
+    "profile_image_upload_file": "Last opp fil",
+    "profile_image_or": "eller",
+    "profile_image_url_label": "Eller legg inn bilde-URL",
+    "profile_image_url_placeholder": "https://eksempel.no/bilde.jpg",
+    "profile_image_url_hint": "Lim inn en direkte lenke til et bilde på nettet",
+    "profile_image_url_save": "Bruk URL",
+    "profile_image_url_empty": "Vennligst skriv inn en URL",
+    "profile_image_url_invalid": "Ugyldig URL-format",
+    "profile_image_url_not_image": "URL-en ser ikke ut til å være et bilde",
+    "profile_image_saving": "Lagrer...",
+    "profile_image_edit": "Rediger profilbilde",
+    "profile_image_edit_title": "Rediger profilbilde",
+    "profile_image_edit_desc": "Last opp et nytt bilde eller legg inn en URL til et bilde på nettet."
   },
   "about": {
     "subtitle": "Din destinasjon for moderne digitale hilsener",
@@ -85,10 +121,15 @@
     "mission_desc": "Vi ønsker å gjøre det enklere og mer magisk å vise at man bryr seg, uansett avstand.",
     "creator_title": "Skaperen",
     "creator_desc": "HappySend er utviklet med ❤️ for å skape små øyeblikk av glede i hverdagen.",
-    "version": "HappySend v1.2.0"
+    "version": "HappySend v1.3.0"
   },
   "changelog": {
     "title": "Endringslogg",
+
+    "v1_3_0": {
+      "date": "5. januar 2026",
+      "desc": "Lagt til mulighet for å legge til et profilbilde til kontoen din. og fikset noen ui-problemer på mobilen. og lagt til en delingsknapp på kortet."
+    },
     
     "v1_2_0": {
       "date": "4. januar 2026",

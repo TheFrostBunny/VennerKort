@@ -117,8 +117,8 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
   ];
 
   return (
-    <div className="h-full flex flex-col bg-white dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-4 shadow-xl">
-      <div className="flex-1 overflow-y-auto pr-1 -mr-1 scrollbar-hide space-y-4">
+    <div className="h-full flex flex-col bg-transparent p-0 sm:bg-white sm:dark:bg-zinc-900 sm:border-l sm:border-zinc-200 sm:dark:border-zinc-800 sm:p-3 sm:p-4 sm:shadow-xl">
+      <div className="flex-1 overflow-y-auto pr-1 -mr-1 scrollbar-hide space-y-3 sm:space-y-4 pb-4">
         {/* Header */}
         <div className="flex items-center justify-between pb-2">
           <h2 className="text-sm font-black uppercase tracking-wider text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
@@ -130,6 +130,7 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
             size="sm"
             onClick={onRandomMessage}
             className="h-7 w-7 p-0 rounded-full hover:bg-pink-50 dark:hover:bg-pink-900/20"
+            aria-label={t("card_app.random_msg")}
           >
             <RefreshCcw className="w-3.5 h-3.5 text-pink-500" />
           </Button>
@@ -172,6 +173,7 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
                     ? "bg-pink-50 border-pink-200 text-pink-600 dark:bg-pink-500/10 dark:border-pink-500/30"
                     : "border-zinc-100 dark:border-zinc-800 hover:border-pink-200 dark:hover:border-zinc-700"
                 )}
+                aria-label={`${t("customizer.type")}: ${item.label}`}
               >
                 <item.icon className="w-3.5 h-3.5 mb-0.5" />
                 <span className="text-[9px] font-bold">{item.label}</span>
@@ -206,6 +208,7 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
             <button
               onClick={onRandomMessage}
               className="text-[9px] font-bold uppercase text-pink-500 hover:text-pink-600 transition-colors"
+              aria-label={t("card_app.random_msg")}
             >
               {t("card_app.random_msg")}
             </button>
@@ -225,19 +228,30 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
               {t("customizer.bg_color")}
             </Label>
             <div className="flex flex-wrap gap-2">
-              {COLORS.map((c) => (
-                <button
-                  key={c.value}
-                  onClick={() => onChange({ backgroundColor: c.value })}
-                  className={cn(
-                    "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 shadow-sm",
-                    state.backgroundColor === c.value
-                      ? "border-pink-500 scale-110"
-                      : "border-white dark:border-zinc-800"
-                  )}
-                  style={{ backgroundColor: c.value }}
-                />
-              ))}
+              {COLORS.map((c) => {
+                const buttonRef = React.useRef<HTMLButtonElement>(null);
+                React.useEffect(() => {
+                  if (buttonRef.current) {
+                    buttonRef.current.style.setProperty("--dynamic-color", c.value);
+                  }
+                }, [c.value]);
+                return (
+                  <button
+                    key={c.value}
+                    ref={buttonRef}
+                    onClick={() => onChange({ backgroundColor: c.value })}
+                    className={cn(
+                      "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 shadow-sm",
+                      state.backgroundColor === c.value
+                        ? "border-pink-500 scale-110"
+                        : "border-white dark:border-zinc-800"
+                    )}
+                    data-color={c.value}
+                    aria-label={`${t("customizer.bg_color")}: ${c.name}`}
+                    title={`${t("customizer.bg_color")}: ${c.name}`}
+                  />
+                );
+              })}
             </div>
           </div>
 
@@ -246,19 +260,30 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
               {t("customizer.text_color")}
             </Label>
             <div className="flex flex-wrap gap-2">
-              {TEXT_COLORS.map((c) => (
-                <button
-                  key={c.value}
-                  onClick={() => onChange({ textColor: c.value })}
-                  className={cn(
-                    "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 shadow-sm",
-                    state.textColor === c.value
-                      ? "border-pink-500 scale-110"
-                      : "border-white dark:border-zinc-800"
-                  )}
-                  style={{ backgroundColor: c.value }}
-                />
-              ))}
+              {TEXT_COLORS.map((c) => {
+                const buttonRef = React.useRef<HTMLButtonElement>(null);
+                React.useEffect(() => {
+                  if (buttonRef.current) {
+                    buttonRef.current.style.setProperty("--dynamic-color", c.value);
+                  }
+                }, [c.value]);
+                return (
+                  <button
+                    key={c.value}
+                    ref={buttonRef}
+                    onClick={() => onChange({ textColor: c.value })}
+                    className={cn(
+                      "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 shadow-sm",
+                      state.textColor === c.value
+                        ? "border-pink-500 scale-110"
+                        : "border-white dark:border-zinc-800"
+                    )}
+                    data-color={c.value}
+                    aria-label={`${t("customizer.text_color")}: ${c.name}`}
+                    title={`${t("customizer.text_color")}: ${c.name}`}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
@@ -317,7 +342,7 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
 
         <div className="space-y-1.5">
           <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-            Effekt
+            {t("customizer.effect")}
           </Label>
           <Select
             value={state.effect}
@@ -403,6 +428,10 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
                 ? "bg-pink-500"
                 : "bg-zinc-200 dark:bg-zinc-800"
             )}
+            aria-label={t("customizer.show_indicator")}
+            {...(state.showIndicator ? { "aria-checked": "true" } : { "aria-checked": "false" })}
+            role="switch"
+            type="button"
           >
             <span
               className={cn(

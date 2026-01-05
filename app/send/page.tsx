@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Heart } from 'lucide-react';
+import { Sparkles, Heart, MessageCircle, Share2, Copy, Check, Smartphone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { GreetingCard } from '@/components/GreetingCard';
 import { CardCustomizer, CardState, CardType } from '@/components/CardCustomizer';
@@ -13,17 +13,39 @@ import { SidebarIconExample } from '@/components/sidebar';
 import { useAuth } from '@/lib/appwrite/auth-context';
 import { createCard, getCard } from '@/lib/appwrite/client';
 import { toast } from 'sonner';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Settings } from 'lucide-react';
 
 function SendContent() {
   const { t } = useI18n();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const isMobile = useIsMobile();
   
   const [isViewOnly, setIsViewOnly] = useState(false);
   const [hasOpened, setHasOpened] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [showShareDialog, setShowShareDialog] = useState(false);
+  const [showMobileCustomizer, setShowMobileCustomizer] = useState(false);
   const { user } = useAuth();
   
   const [state, setState] = useState<CardState>({
@@ -194,7 +216,7 @@ function SendContent() {
     updateState({ message: newMessage });
   };
 
-  const handleShare = useCallback(async () => {
+  const generateShareUrl = useCallback(async (): Promise<string> => {
     const url = new URL(window.location.origin + '/send');
     
     // Check if logged in for Cloud Save
@@ -206,13 +228,7 @@ function SendContent() {
                  senderName: state.senderName || user.name, // Fallback to user name
              });
              url.searchParams.set('id', doc.$id);
-             
-             navigator.clipboard.writeText(url.toString()).then(() => {
-                setIsLinkCopied(true);
-                toast.success("Link kopiert!", { description: "Kortet er lagret i skyen." });
-                setTimeout(() => setIsLinkCopied(false), 3000);
-             });
-             return;
+             return url.toString();
         } catch (error) {
             console.error(error);
             toast.error("Kunne ikke lagre til skyen", { description: "Bruker standard link i stedet." });
@@ -240,20 +256,105 @@ function SendContent() {
 
     const encodedData = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
     url.searchParams.set('c', encodedData);
-
-    navigator.clipboard.writeText(url.toString()).then(() => {
-      setIsLinkCopied(true);
-      toast.success("Link kopiert!"); // using sonner
-      const sentHistory = JSON.parse(localStorage.getItem('happysend_history') || '[]');
-      const newSentCard = {
-        ...state,
-        id: Date.now().toString(),
-        sentAt: new Date().toISOString()
-      };
-      localStorage.setItem('happysend_history', JSON.stringify([...sentHistory, newSentCard]));
-      setTimeout(() => setIsLinkCopied(false), 3000);
-    });
+    return url.toString();
   }, [state, user]);
+
+  const handleShare = useCallback(async () => {
+    const url = await generateShareUrl();
+    setShareUrl(url);
+    
+    // On mobile, try native share first
+    if (isMobile && navigator.share) {
+      try {
+        await navigator.share({
+          title: t('share.title'),
+          text: t('share.message'),
+          url: url,
+        });
+        // Save to history
+        const sentHistory = JSON.parse(localStorage.getItem('happysend_history') || '[]');
+        const newSentCard = {
+          ...state,
+          id: Date.now().toString(),
+          sentAt: new Date().toISOString()
+        };
+        localStorage.setItem('happysend_history', JSON.stringify([...sentHistory, newSentCard]));
+        return; // Don't show dialog if native share succeeded
+      } catch (error: any) {
+        // User cancelled or share failed, fall through to dialog
+        if (error.name !== 'AbortError') {
+          console.log('Native share failed, showing dialog');
+        }
+      }
+    }
+    
+    // Show dialog for desktop or if native share failed
+    setShowShareDialog(true);
+    
+    // Save to history
+    const sentHistory = JSON.parse(localStorage.getItem('happysend_history') || '[]');
+    const newSentCard = {
+      ...state,
+      id: Date.now().toString(),
+      sentAt: new Date().toISOString()
+    };
+    localStorage.setItem('happysend_history', JSON.stringify([...sentHistory, newSentCard]));
+  }, [generateShareUrl, state, isMobile, t]);
+
+  const handleCopyLink = async () => {
+    if (shareUrl) {
+      await navigator.clipboard.writeText(shareUrl);
+      setIsLinkCopied(true);
+      toast.success(t("card_app.link_copied"));
+      setTimeout(() => setIsLinkCopied(false), 3000);
+    }
+  };
+
+  const handleSharePlatform = (platform: 'whatsapp' | 'messenger' | 'instagram' | 'sms') => {
+    if (!shareUrl) return;
+    
+    const message = encodeURIComponent(t('share.message') + ' ' + shareUrl);
+    
+    let shareLink = '';
+    switch (platform) {
+      case 'whatsapp':
+        shareLink = `https://wa.me/?text=${message}`;
+        break;
+      case 'messenger':
+        // Use Web Share API if available, otherwise fallback
+        if (navigator.share) {
+          navigator.share({ 
+            url: shareUrl, 
+            title: t('share.title'),
+            text: t('share.message')
+          }).catch(() => {
+            // Fallback to copy if share fails
+            handleCopyLink();
+          });
+          return;
+        } else {
+          // Fallback: copy link
+          handleCopyLink();
+          toast.info(t('share.messenger_fallback'));
+          return;
+        }
+      case 'instagram':
+        // Instagram doesn't support direct sharing via URL, so we'll copy and show instructions
+        handleCopyLink();
+        toast.success(t('share.instagram_copied'), { 
+          description: t('share.instagram_hint') 
+        });
+        return;
+      case 'sms':
+        shareLink = `sms:?body=${message}`;
+        break;
+    }
+    
+    if (shareLink) {
+      window.open(shareLink, '_blank');
+      setShowShareDialog(false);
+    }
+  };
 
   const handleSave = () => {
     const savedCards = JSON.parse(localStorage.getItem('happysend_received') || '[]');
@@ -300,8 +401,53 @@ function SendContent() {
   const content = (
     <main className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-zinc-950">
       {isPreview && navHeader}
-      <div className="flex-1 flex flex-col md:flex-row min-h-0">
+      <div className="flex-1 flex flex-col md:flex-row min-h-0 relative">
         <div className="flex-1 flex flex-col items-center justify-center p-2 md:p-4 relative overflow-hidden min-h-0 bg-zinc-50/30 dark:bg-zinc-950/30">
+          {/* Mobile Customizer Button */}
+          {!isViewOnly && !isPreview && isMobile && (
+            <div className="absolute top-4 right-4 z-30">
+              <Sheet open={showMobileCustomizer} onOpenChange={setShowMobileCustomizer}>
+                <SheetTrigger asChild>
+                  <Button
+                    size="sm"
+                    className="rounded-full h-12 w-12 p-0 bg-pink-500 hover:bg-pink-600 text-white shadow-lg"
+                  >
+                    <Settings className="w-5 h-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="bottom" className="h-[85vh] max-h-[85vh] overflow-hidden p-0">
+                    <div className="h-full flex flex-col bg-white dark:bg-zinc-900">
+                    <SheetHeader className="px-4 pt-4 pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                      <SheetTitle className="flex items-center gap-2 text-lg">
+                        <Sparkles className="w-5 h-5 text-pink-500" />
+                        {t("customizer.title")}
+                      </SheetTitle>
+                      <SheetDescription className="text-xs mt-1">
+                        {t("customizer.settings_desc")}
+                      </SheetDescription>
+                    </SheetHeader>
+                    <div className="flex-1 overflow-y-auto px-4">
+                      <CardCustomizer 
+                        state={state} 
+                        onChange={updateState} 
+                        onShare={() => {
+                          handleShare();
+                          setShowMobileCustomizer(false);
+                        }}
+                        onPreview={() => {
+                          handlePreview();
+                          setShowMobileCustomizer(false);
+                        }}
+                        onRandomMessage={handleRandomMessage}
+                        isLinkCopied={isLinkCopied}
+                      />
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+          )}
+
           <div className="w-full max-w-4xl z-10 py-4 flex flex-col items-center">
             <GreetingCard 
               state={state} 
@@ -353,7 +499,8 @@ function SendContent() {
           </div>
         </div>
 
-        {!isViewOnly && !isPreview && (
+        {/* Desktop Customizer */}
+        {!isViewOnly && !isPreview && !isMobile && (
           <motion.div
             initial={{ x: 320 }}
             animate={{ x: 0 }}
@@ -382,6 +529,118 @@ function SendContent() {
   return (
     <SidebarIconExample>
       {content}
+      <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+        <DialogContent className="sm:max-w-[425px] max-w-[calc(100vw-2rem)] mx-4">
+          <DialogHeader>
+            <DialogTitle className="text-lg sm:text-xl">{t('share.title')}</DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm">
+              {t('share.description')}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {/* Native Share Button for Mobile */}
+          {isMobile && navigator.share && (
+            <Button
+              onClick={async () => {
+                if (shareUrl) {
+                  try {
+                    await navigator.share({
+                      title: t('share.title'),
+                      text: t('share.message'),
+                      url: shareUrl,
+                    });
+                    setShowShareDialog(false);
+                  } catch (error: any) {
+                    if (error.name !== 'AbortError') {
+                      console.error('Share failed:', error);
+                    }
+                  }
+                }
+              }}
+              className="w-full gap-2 h-12 sm:h-14 bg-pink-500 hover:bg-pink-600 text-white mb-4 text-base font-medium"
+            >
+              <Smartphone className="w-5 h-5" />
+              {t('share.native_share')}
+            </Button>
+          )}
+
+          <div className={cn(
+            "grid gap-3 py-2",
+            isMobile ? "grid-cols-2" : "grid-cols-2"
+          )}>
+            <Button
+              onClick={() => handleSharePlatform('whatsapp')}
+              variant="outline"
+              className={cn(
+                "flex flex-col items-center gap-2 h-auto bg-green-50 dark:bg-green-950/20 hover:bg-green-100 dark:hover:bg-green-950/40 border-green-200 dark:border-green-900 active:scale-95 transition-transform",
+                isMobile ? "py-5 min-h-[80px]" : "py-4"
+              )}
+            >
+              <MessageCircle className={cn("text-green-600 dark:text-green-400", isMobile ? "w-7 h-7" : "w-6 h-6")} />
+              <span className={cn("font-medium", isMobile ? "text-base" : "text-sm")}>WhatsApp</span>
+            </Button>
+
+            <Button
+              onClick={() => handleSharePlatform('messenger')}
+              variant="outline"
+              className={cn(
+                "flex flex-col items-center gap-2 h-auto bg-blue-50 dark:bg-blue-950/20 hover:bg-blue-100 dark:hover:bg-blue-950/40 border-blue-200 dark:border-blue-900 active:scale-95 transition-transform",
+                isMobile ? "py-5 min-h-[80px]" : "py-4"
+              )}
+            >
+              <MessageCircle className={cn("text-blue-600 dark:text-blue-400", isMobile ? "w-7 h-7" : "w-6 h-6")} />
+              <span className={cn("font-medium", isMobile ? "text-base" : "text-sm")}>Messenger</span>
+            </Button>
+
+            <Button
+              onClick={() => handleSharePlatform('instagram')}
+              variant="outline"
+              className={cn(
+                "flex flex-col items-center gap-2 h-auto bg-pink-50 dark:bg-pink-950/20 hover:bg-pink-100 dark:hover:bg-pink-950/40 border-pink-200 dark:border-pink-900 active:scale-95 transition-transform",
+                isMobile ? "py-5 min-h-[80px]" : "py-4"
+              )}
+            >
+              <Share2 className={cn("text-pink-600 dark:text-pink-400", isMobile ? "w-7 h-7" : "w-6 h-6")} />
+              <span className={cn("font-medium", isMobile ? "text-base" : "text-sm")}>Instagram</span>
+            </Button>
+
+            <Button
+              onClick={() => handleSharePlatform('sms')}
+              variant="outline"
+              className={cn(
+                "flex flex-col items-center gap-2 h-auto bg-purple-50 dark:bg-purple-950/20 hover:bg-purple-100 dark:hover:bg-purple-950/40 border-purple-200 dark:border-purple-900 active:scale-95 transition-transform",
+                isMobile ? "py-5 min-h-[80px]" : "py-4"
+              )}
+            >
+              <MessageCircle className={cn("text-purple-600 dark:text-purple-400", isMobile ? "w-7 h-7" : "w-6 h-6")} />
+              <span className={cn("font-medium", isMobile ? "text-base" : "text-sm")}>SMS</span>
+            </Button>
+          </div>
+
+          <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800">
+            <Button
+              onClick={handleCopyLink}
+              variant="outline"
+              className={cn(
+                "w-full gap-2",
+                isMobile ? "h-12 text-base" : "h-10"
+              )}
+            >
+              {isLinkCopied ? (
+                <>
+                  <Check className="w-5 h-5" />
+                  {t('share.copied')}
+                </>
+              ) : (
+                <>
+                  <Copy className="w-5 h-5" />
+                  {t('share.copy_link')}
+                </>
+              )}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </SidebarIconExample>
   );
 }
