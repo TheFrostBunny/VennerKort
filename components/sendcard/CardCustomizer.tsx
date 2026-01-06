@@ -1,32 +1,21 @@
 "use client";
 
 import React from "react";
-import {
-  Palette,
-  Type,
-  Frame,
-  Sparkles,
-  Heart,
-  Users,
-  Lock as LockIcon,
-  Share2,
-  RefreshCcw,
-  Check,
-  Eye,
-  Clock,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { Sparkles, RefreshCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/i18n-context";
+import { CardTypeSelector } from "./CardTypeSelector";
+import { SenderNameInput } from "./SenderNameInput";
+import { MessageTextarea } from "./MessageTextarea";
+import { ColorPicker } from "./ColorPicker";
+import { FontSelector } from "./FontSelector";
+import { BorderSelector } from "./BorderSelector";
+import { EffectSelector } from "./EffectSelector";
+import { ConfettiSelector } from "./ConfettiSelector";
+import { EnvelopeSelector } from "./EnvelopeSelector";
+import { ShowIndicatorSwitch } from "./ShowIndicatorSwitch";
+import { TimeLockInput } from "./TimeLockInput";
+import { CustomizerActionButtons } from "./CustomizerActionButtons";
 
 export type CardType = "friend" | "love" | "crush";
 
@@ -117,7 +106,7 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
   ];
 
   return (
-    <div className="h-full flex flex-col bg-transparent p-0 sm:bg-white sm:dark:bg-zinc-900 sm:border-l sm:border-zinc-200 sm:dark:border-zinc-800 sm:p-3 sm:p-4 sm:shadow-xl">
+    <div className="h-full flex flex-col bg-transparent p-0 sm:bg-white sm:dark:bg-zinc-900 sm:border-l sm:border-zinc-200 sm:dark:border-zinc-800 sm:p-4 sm:shadow-xl">
       <div className="flex-1 overflow-y-auto pr-1 -mr-1 scrollbar-hide space-y-3 sm:space-y-4 pb-4">
         {/* Header */}
         <div className="flex items-center justify-between pb-2">
@@ -125,374 +114,108 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
             <Sparkles className="w-4 h-4 text-pink-500" />
             {t("customizer.title")}
           </h2>
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
+            type="button"
             onClick={onRandomMessage}
-            className="h-7 w-7 p-0 rounded-full hover:bg-pink-50 dark:hover:bg-pink-900/20"
+            className="h-7 w-7 p-0 rounded-full hover:bg-pink-50 dark:hover:bg-pink-900/20 flex items-center justify-center"
             aria-label={t("card_app.random_msg")}
           >
             <RefreshCcw className="w-3.5 h-3.5 text-pink-500" />
-          </Button>
+          </button>
         </div>
 
         {/* Card Type */}
-        <div className="space-y-2">
-          <Label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-tight opacity-50">
-            <Heart className="w-3 h-3" /> {t("customizer.type")}
-          </Label>
-          <div className="grid grid-cols-3 gap-1.5">
-            {[
-              {
-                id: "friend",
-                icon: Users,
-                label: t("customizer.friend"),
-                emoji: "😊",
-              },
-              {
-                id: "love",
-                icon: Heart,
-                label: t("customizer.love"),
-                emoji: "❤️",
-              },
-              {
-                id: "crush",
-                icon: LockIcon,
-                label: t("customizer.crush"),
-                emoji: "💖",
-              },
-            ].map((item) => (
-              <button
-                key={item.id}
-                onClick={() =>
-                  onChange({ type: item.id as CardType, emoji: item.emoji })
-                }
-                className={cn(
-                  "flex flex-col items-center justify-center p-1.5 rounded-xl border transition-all",
-                  state.type === item.id
-                    ? "bg-pink-50 border-pink-200 text-pink-600 dark:bg-pink-500/10 dark:border-pink-500/30"
-                    : "border-zinc-100 dark:border-zinc-800 hover:border-pink-200 dark:hover:border-zinc-700"
-                )}
-                aria-label={`${t("customizer.type")}: ${item.label}`}
-              >
-                <item.icon className="w-3.5 h-3.5 mb-0.5" />
-                <span className="text-[9px] font-bold">{item.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+        <CardTypeSelector
+          value={state.type}
+          onChange={(type, emoji) => onChange({ type, emoji })}
+        />
 
         {/* Sender Name */}
-        <div className="space-y-1.5">
-          <Label
-            htmlFor="name"
-            className="text-[10px] font-bold uppercase tracking-tight opacity-50"
-          >
-            {t("card_app.sender_name")}
-          </Label>
-          <Input
-            id="name"
-            placeholder={t("card_app.sender_placeholder")}
-            value={state.senderName}
-            onChange={(e) => onChange({ senderName: e.target.value })}
-            className="rounded-xl h-9 text-xs border-zinc-200 dark:border-zinc-800 focus:ring-pink-500"
-          />
-        </div>
+        <SenderNameInput
+          value={state.senderName}
+          onChange={(name) => onChange({ senderName: name })}
+        />
 
         {/* Message */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center">
-            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-              {t("card_app.message_title")}
-            </Label>
-            <button
-              onClick={onRandomMessage}
-              className="text-[9px] font-bold uppercase text-pink-500 hover:text-pink-600 transition-colors"
-              aria-label={t("card_app.random_msg")}
-            >
-              {t("card_app.random_msg")}
-            </button>
-          </div>
-          <textarea
-            className="w-full min-h-[80px] p-2.5 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 focus:ring-2 focus:ring-pink-500/10 focus:border-pink-500 outline-none transition-all resize-none"
-            placeholder={t("card_app.message_placeholder")}
-            value={state.message}
-            onChange={(e) => onChange({ message: e.target.value })}
-          />
-        </div>
+        <MessageTextarea
+          value={state.message}
+          onChange={(msg) => onChange({ message: msg })}
+          onRandomMessage={onRandomMessage}
+        />
 
         {/* Appearance Section */}
         <div className="space-y-3 pt-1">
-          <div className="space-y-2">
-            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-              {t("customizer.bg_color")}
-            </Label>
-            <div className="flex flex-wrap gap-2">
-              {COLORS.map((c) => {
-                const buttonRef = React.useRef<HTMLButtonElement>(null);
-                React.useEffect(() => {
-                  if (buttonRef.current) {
-                    buttonRef.current.style.setProperty("--dynamic-color", c.value);
-                  }
-                }, [c.value]);
-                return (
-                  <button
-                    key={c.value}
-                    ref={buttonRef}
-                    onClick={() => onChange({ backgroundColor: c.value })}
-                    className={cn(
-                      "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 shadow-sm",
-                      state.backgroundColor === c.value
-                        ? "border-pink-500 scale-110"
-                        : "border-white dark:border-zinc-800"
-                    )}
-                    data-color={c.value}
-                    aria-label={`${t("customizer.bg_color")}: ${c.name}`}
-                    title={`${t("customizer.bg_color")}: ${c.name}`}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-              {t("customizer.text_color")}
-            </Label>
-            <div className="flex flex-wrap gap-2">
-              {TEXT_COLORS.map((c) => {
-                const buttonRef = React.useRef<HTMLButtonElement>(null);
-                React.useEffect(() => {
-                  if (buttonRef.current) {
-                    buttonRef.current.style.setProperty("--dynamic-color", c.value);
-                  }
-                }, [c.value]);
-                return (
-                  <button
-                    key={c.value}
-                    ref={buttonRef}
-                    onClick={() => onChange({ textColor: c.value })}
-                    className={cn(
-                      "w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 shadow-sm",
-                      state.textColor === c.value
-                        ? "border-pink-500 scale-110"
-                        : "border-white dark:border-zinc-800"
-                    )}
-                    data-color={c.value}
-                    aria-label={`${t("customizer.text_color")}: ${c.name}`}
-                    title={`${t("customizer.text_color")}: ${c.name}`}
-                  />
-                );
-              })}
-            </div>
-          </div>
+          <ColorPicker
+            label={t("customizer.bg_color")}
+            options={COLORS}
+            value={state.backgroundColor}
+            onChange={(color) => onChange({ backgroundColor: color })}
+            ariaLabelPrefix={t("customizer.bg_color")}
+          />
+          <ColorPicker
+            label={t("customizer.text_color")}
+            options={TEXT_COLORS}
+            value={state.textColor}
+            onChange={(color) => onChange({ textColor: color })}
+            ariaLabelPrefix={t("customizer.text_color")}
+          />
         </div>
 
         {/* Final Settings Grid */}
         <div className="grid grid-cols-2 gap-3 pt-1">
-          <div className="space-y-1.5">
-            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-              {t("customizer.font")}
-            </Label>
-            <Select
-              value={state.font}
-              onValueChange={(v) => onChange({ font: v })}
-            >
-              <SelectTrigger className="rounded-xl h-8 text-[10px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {FONTS.map((f) => (
-                  <SelectItem
-                    key={f.value}
-                    value={f.value}
-                    className="text-[10px]"
-                  >
-                    {f.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-              {t("customizer.border")}
-            </Label>
-            <Select
-              value={state.border}
-              onValueChange={(v) => onChange({ border: v })}
-            >
-              <SelectTrigger className="rounded-xl h-8 text-[10px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {BORDERS.map((b) => (
-                  <SelectItem
-                    key={b.value}
-                    value={b.value}
-                    className="text-[10px]"
-                  >
-                    {b.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="space-y-1.5">
-          <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-            {t("customizer.effect")}
-          </Label>
-          <Select
-            value={state.effect}
-            onValueChange={(v) => onChange({ effect: v })}
-          >
-            <SelectTrigger className="rounded-xl h-8 text-[10px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {EFFECTS.map((e) => (
-                <SelectItem
-                  key={e.value}
-                  value={e.value}
-                  className="text-[10px]"
-                >
-                  {e.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1.5">
-            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-              {t("customizer.confetti")}
-            </Label>
-            <Select
-              value={state.confettiType}
-              onValueChange={(v) => onChange({ confettiType: v as any })}
-            >
-              <SelectTrigger className="rounded-xl h-8 text-[10px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {CONFETTI.map((c) => (
-                  <SelectItem
-                    key={c.value}
-                    value={c.value}
-                    className="text-[10px]"
-                  >
-                    {c.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-              {t("customizer.envelope_style")}
-            </Label>
-            <Select
-              value={state.envelopeStyle}
-              onValueChange={(v) => onChange({ envelopeStyle: v as any })}
-            >
-              <SelectTrigger className="rounded-xl h-8 text-[10px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {ENVELOPES.map((e) => (
-                  <SelectItem
-                    key={e.value}
-                    value={e.value}
-                    className="text-[10px]"
-                  >
-                    {e.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between py-1 px-1">
-          <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-            {t("customizer.show_indicator")}
-          </Label>
-          <button
-            onClick={() => onChange({ showIndicator: !state.showIndicator })}
-            className={cn(
-              "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
-              state.showIndicator
-                ? "bg-pink-500"
-                : "bg-zinc-200 dark:bg-zinc-800"
-            )}
-            aria-label={t("customizer.show_indicator")}
-            {...(state.showIndicator ? { "aria-checked": "true" } : { "aria-checked": "false" })}
-            role="switch"
-            type="button"
-          >
-            <span
-              className={cn(
-                "pointer-events-none block h-4 w-4 rounded-full bg-white shadow-lg ring-0 transition-transform",
-                state.showIndicator ? "translate-x-4" : "translate-x-1"
-              )}
-            />
-          </button>
-        </div>
-
-        {/* Time Lock Section */}
-        <div className="space-y-2 pt-2 border-t border-dashed border-zinc-200 dark:border-zinc-800">
-          <div className="flex items-center gap-2">
-            <Clock className="w-3.5 h-3.5 text-pink-500" />
-            <Label className="text-[10px] font-bold uppercase tracking-tight opacity-50">
-              {t("customizer.time_lock_title")}
-            </Label>
-          </div>
-          <p className="text-[10px] text-zinc-400 dark:text-zinc-500 leading-tight">
-            {t("customizer.time_lock_desc")}
-          </p>
-          <Input
-            type="datetime-local"
-            value={state.unlockAt || ""}
-            onChange={(e) => onChange({ unlockAt: e.target.value || null })}
-            className="rounded-xl h-9 text-xs border-zinc-200 dark:border-zinc-800 focus:ring-pink-500 font-mono"
-            min={new Date().toISOString().slice(0, 16)}
+          <FontSelector
+            options={FONTS}
+            value={state.font}
+            onChange={(font) => onChange({ font })}
+          />
+          <BorderSelector
+            options={BORDERS}
+            value={state.border}
+            onChange={(border) => onChange({ border })}
+            label={t("customizer.border")}
           />
         </div>
+
+        <EffectSelector
+          options={EFFECTS}
+          value={state.effect}
+          onChange={(effect) => onChange({ effect })}
+          label={t("customizer.effect")}
+        />
+
+        <div className="grid grid-cols-2 gap-3">
+          <ConfettiSelector
+            options={CONFETTI}
+            value={state.confettiType}
+            onChange={(confetti) => onChange({ confettiType: confetti as any })}
+            label={t("customizer.confetti")}
+          />
+          <EnvelopeSelector
+            options={ENVELOPES}
+            value={state.envelopeStyle}
+            onChange={(envelope) => onChange({ envelopeStyle: envelope as any })}
+            label={t("customizer.envelope_style")}
+          />
+        </div>
+
+        <ShowIndicatorSwitch
+          value={state.showIndicator}
+          onChange={(show) => onChange({ showIndicator: show })}
+          label={t("customizer.show_indicator")}
+        />
+
+        {/* Time Lock Section */}
+        <TimeLockInput
+          value={state.unlockAt}
+          onChange={(val) => onChange({ unlockAt: val })}
+        />
       </div>
 
-      <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex flex-col gap-2">
-        <Button
-          variant="outline"
-          onClick={onPreview}
-          className="w-full rounded-2xl h-11 text-xs font-black uppercase tracking-widest transition-all border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800"
-        >
-          <span className="flex items-center gap-2">
-            <Eye className="w-4 h-4" /> {t("card_app.preview")}
-          </span>
-        </Button>
-        <Button
-          onClick={onShare}
-          className={cn(
-            "w-full rounded-2xl h-11 text-xs font-black uppercase tracking-widest transition-all shadow-lg active:scale-95",
-            isLinkCopied
-              ? "bg-green-500 hover:bg-green-600 text-white"
-              : "bg-pink-500 hover:bg-pink-600 text-white"
-          )}
-        >
-          {isLinkCopied ? (
-            <span className="flex items-center gap-2">
-              <Check className="w-4 h-4" /> {t("card_app.link_copied")}
-            </span>
-          ) : (
-            <span className="flex items-center gap-2">
-              <Share2 className="w-4 h-4" /> {t("customizer.del_kort")}
-            </span>
-          )}
-        </Button>
-      </div>
+      <CustomizerActionButtons
+        onPreview={onPreview}
+        onShare={onShare}
+        isLinkCopied={isLinkCopied}
+      />
     </div>
   );
 };

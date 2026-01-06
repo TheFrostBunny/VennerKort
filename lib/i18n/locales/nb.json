@@ -153,6 +153,10 @@
   "changelog": {
     "title": "Endringslogg",
 
+    "v1_4_0": {
+      "date": "January 10, 2026",
+      "desc": "Lagt til temavalg: Velg mellom lyst, mørkt eller systemtema. Introduksjon av ny wikiside med vanlige spørsmål og veiledninger. Forbedret mobilrespons og ytelse."
+    },
     "v1_3_0": {
       "date": "5. januar 2026",
       "desc": "Lagt til mulighet for å legge til et profilbilde til kontoen din. og fikset noen ui-problemer på mobilen. og lagt til en delingsknapp på kortet."
