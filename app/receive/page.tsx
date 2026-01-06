@@ -6,7 +6,7 @@ import { SidebarIconExample } from '@/components/sidebar';
 import { useI18n } from '@/lib/i18n/i18n-context';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { CardState } from '@/components/CardCustomizer';
+import { CardState } from '@/components/sendcard/CardCustomizer';
 
 interface SavedCard extends CardState {
   id: string;

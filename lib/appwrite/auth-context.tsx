@@ -15,6 +15,7 @@ interface AuthContextType {
     logout: () => Promise<void>;
     checkSession: () => Promise<void>;
     updateProfileImage: (imageUrl: string) => Promise<void>;
+    updateUsername: (newName: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -26,6 +27,7 @@ const AuthContext = createContext<AuthContextType>({
     logout: async () => {},
     checkSession: async () => {},
     updateProfileImage: async () => {},
+    updateUsername: async () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -199,8 +201,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    // Update username logic
+    const updateUsername = async (newName: string) => {
+        if (!user) throw new Error("User not logged in");
+        try {
+            // Update in Appwrite Auth
+            await account.updateName(newName);
+            // Update in user profile document
+            await databases.updateDocument(
+                DATABASE_ID,
+                COLLECTION_ID_USERS,
+                user.$id,
+                { username: newName }
+            );
+            // Update local user state
+            setUser({ ...user, name: newName });
+        } catch (error) {
+            console.error("Failed to update username", error);
+            throw error;
+        }
+    };
     return (
-        <AuthContext.Provider value={{ user, profileImageUrl, loading, login, register, logout, checkSession, updateProfileImage }}>
+        <AuthContext.Provider value={{ user, profileImageUrl, loading, login, register, logout, checkSession, updateProfileImage, updateUsername }}>
             {children}
         </AuthContext.Provider>
     );
