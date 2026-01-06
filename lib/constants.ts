@@ -1,4 +1,4 @@
-import { CardType } from "@/components/CardCustomizer";
+import { CardType } from "@/components/sendcard/CardCustomizer";
 
 export const STORAGE_BUCKET_PROFILE_IMAGES = 'profile-images';
 

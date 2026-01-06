@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Heart, MessageCircle, Share2, Copy, Check, Smartphone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { GreetingCard } from '@/components/GreetingCard';
-import { CardCustomizer, CardState, CardType } from '@/components/CardCustomizer';
+import { CardCustomizer, CardState, CardType } from '@/components/sendcard/CardCustomizer';
 import { DEFAULT_MESSAGES } from '@/lib/constants';
 import { useI18n } from '@/lib/i18n/i18n-context';
 import { SidebarIconExample } from '@/components/sidebar';

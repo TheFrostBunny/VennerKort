@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Sparkle, MailOpen, Mail, Lock as LockIcon, RefreshCcw, Clock, Timer } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { CardState } from './CardCustomizer';
+import { CardState } from './sendcard/CardCustomizer';
 import confetti from 'canvas-confetti';
 import { useI18n } from '@/lib/i18n/i18n-context';
 
