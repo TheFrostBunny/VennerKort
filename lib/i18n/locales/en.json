@@ -153,6 +153,10 @@
   "changelog": {
     "title": "Changelog",
 
+    "v1_4_0": {
+      "date": "January 10, 2026",
+      "desc": "Added Theme Preference: Choose between light, dark, or system theme. and intoduced new Wiki Page with FAQs and guides."
+    },
     "v1_3_0": {
       "date": "January 5, 2026",
       "desc": "Added option to add a profile picture to your account. and fix some ui issues on mobile devices. and Added a share button to the card."
