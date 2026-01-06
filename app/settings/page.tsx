@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
+import { useTheme } from 'next-themes';
 import { Settings as SettingsIcon, Globe, Check, Heart, Info, Rocket, User, Upload, X, Loader2, Link as LinkIcon, Pencil } from 'lucide-react';
 import { SidebarIconExample } from '@/components/sidebar';
 import { useI18n } from '@/lib/i18n/i18n-context';
@@ -12,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -31,6 +33,12 @@ export default function SettingsPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Theme picker logic
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => { setMounted(true); }, []);
+  const { theme, setTheme } = useTheme();
+
+  // ...existing code...
   return (
     <SidebarIconExample>
       <main className="flex-1 flex flex-col md:flex-row h-full overflow-hidden bg-white dark:bg-zinc-950">
@@ -38,9 +46,9 @@ export default function SettingsPage() {
           <div className="space-y-0.5">
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
               <SettingsIcon className="w-6 h-6 text-zinc-400" />
-              {t('customizer.settings')}
             </h1>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('customizer.settings_desc')}</p>
+          </div>
+          {/* End main content */}
           </div>
 
           <div className="grid gap-6">
@@ -334,7 +342,79 @@ export default function SettingsPage() {
                 </button>
               </div>
             </section>
-            
+         {/* Theme Picker Card */}
+         <section className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm mb-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-9 h-9 rounded-xl bg-yellow-100 dark:bg-yellow-500/20 flex items-center justify-center text-yellow-600 dark:text-yellow-400">
+                <Rocket className="w-4 h-4" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">{t('customizer.theme_title')}</h2>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">{t('customizer.theme_desc')}</p>
+              </div>
+            </div>
+            {mounted && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                <button
+                  onClick={() => setTheme('light')}
+                  className={cn(
+                    "group flex items-center justify-between p-4 rounded-xl border transition-all text-left",
+                    theme === 'light'
+                      ? "bg-white dark:bg-zinc-800 border-pink-500 shadow-sm"
+                      : "bg-transparent border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700"
+                  )}
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl">🌞</span>
+                    <div>
+                      <div className="font-bold text-zinc-900 dark:text-zinc-100">{t('customizer.theme_light')}</div>
+                      <div className="text-xs text-zinc-500">{t('customizer.theme_light')} {t('customizer.mode')} </div>
+                    </div>
+                  </div>
+                  {theme === 'light' && <Check className="w-5 h-5 text-pink-500" />}
+                </button>
+                <button
+                  onClick={() => setTheme('dark')}
+                  className={cn(
+                    "group flex items-center justify-between p-4 rounded-xl border transition-all text-left",
+                    theme === 'dark'
+                      ? "bg-white dark:bg-zinc-800 border-pink-500 shadow-sm"
+                      : "bg-transparent border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700"
+                  )}
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl">🌙</span>
+                    <div>
+                      <div className="font-bold text-zinc-900 dark:text-zinc-100">{t('customizer.theme_dark')}</div>
+                      <div className="text-xs text-zinc-500">{t('customizer.theme_dark')} {t('customizer.mode')}</div>
+                    </div>
+                  </div>
+                  {theme === 'dark' && <Check className="w-5 h-5 text-pink-500" />}
+                </button>
+                <button
+                  onClick={() => setTheme('system')}
+                  className={cn(
+                    "group flex items-center justify-between p-4 rounded-xl border transition-all text-left",
+                    theme === 'system'
+                      ? "bg-white dark:bg-zinc-800 border-pink-500 shadow-sm"
+                      : "bg-transparent border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700"
+                  )}
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl">🖥️</span>
+                    <div>
+                      <div className="font-bold text-zinc-900 dark:text-zinc-100">{t('customizer.system')}</div>
+                      <div className="text-xs text-zinc-500">{t('customizer.FollowSystem')}</div>
+                    </div>
+                  </div>
+                  {theme === 'system' && <Check className="w-5 h-5 text-pink-500" />}
+                </button>
+              </div>
+            )}
+          </section>
+
+
+
             <section className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-6">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-pink-100 dark:bg-pink-500/20 flex items-center justify-center text-pink-600 dark:text-pink-400">
@@ -389,8 +469,8 @@ export default function SettingsPage() {
               </div>
             </section>
           </div>
-        </div>
-      </main>
+          </main>
     </SidebarIconExample>
+    
   );
 }

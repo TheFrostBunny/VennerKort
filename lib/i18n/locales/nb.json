@@ -112,7 +112,15 @@
     "profile_image_saving": "Lagrer...",
     "profile_image_edit": "Rediger profilbilde",
     "profile_image_edit_title": "Rediger profilbilde",
-    "profile_image_edit_desc": "Last opp et nytt bilde eller legg inn en URL til et bilde på nettet."
+    "profile_image_edit_desc": "Last opp et nytt bilde eller legg inn en URL til et bilde på nettet.",
+    "theme_desc": "Velg mellom lyst, mørkt eller systemtema.",
+    "theme_title": "Temapreferanse",
+    "theme_light": "Lyst",
+    "theme_dark": "Mørkt",
+    "theme_system": "Systemstandard",
+    "mode": "Modus",
+    "system": "System",
+    "FollowSystem": "Følg system"
   },
   "about": {
     "subtitle": "Din destinasjon for moderne digitale hilsener",
