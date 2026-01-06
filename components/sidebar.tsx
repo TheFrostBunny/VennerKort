@@ -232,6 +232,12 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                           {t('customizer.settings')}
                         </Link>
                       </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/wiki" className="flex items-center gap-2">
+                          <HugeiconsIcon icon={Globe02Icon} strokeWidth={2} className="size-4" />
+                          {t('nav.Wiki')}
+                        </Link>
+                      </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
