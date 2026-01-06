@@ -187,6 +187,10 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                     <SidebarMenuButton
                       size="lg"
                       className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
+                      tooltip={{
+                        children: user.name,
+                        hidden: false,
+                      }}
                     >
                       <Avatar className="h-8 w-8 rounded-lg">
                         <AvatarImage src={profileImageUrl || undefined} alt={user.name} />
@@ -194,7 +198,7 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                           {user.name.substring(0, 2)}
                         </AvatarFallback>
                       </Avatar>
-                      <div className="grid flex-1 text-left text-sm leading-tight">
+                      <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                         <span className="truncate font-medium">
                           {user.name}
                         </span>
@@ -202,7 +206,7 @@ export function SidebarIconExample({ children }: { children?: React.ReactNode })
                           {user.email}
                         </span>
                       </div>
-                      <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} />
+                      <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} className="group-data-[collapsible=icon]:hidden" />
                     </SidebarMenuButton>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>

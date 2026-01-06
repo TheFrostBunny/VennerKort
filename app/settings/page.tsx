@@ -6,15 +6,13 @@ import { SidebarIconExample } from '@/components/sidebar';
 import { useI18n } from '@/lib/i18n/i18n-context';
 import { useAuth } from '@/lib/appwrite/auth-context';
 import { ProfileCard } from '@/components/settings/ProfileCard';
-import { UsernameEdit } from '@/components/settings/UsernameEdit';
 import { LanguageSelector } from '@/components/settings/LanguageSelector';
 import { ThemeSelector } from '@/components/settings/ThemeSelector';
 import { AboutSection } from '@/components/settings/AboutSection';
-import { toast } from 'sonner';
 
 export default function SettingsPage() {
   const { lang, setLang, t } = useI18n();
-  const { user, profileImageUrl, updateProfileImage, updateUsername } = useAuth();
+  const { user, profileImageUrl } = useAuth();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => { setMounted(true); }, []);
   const { theme, setTheme } = useTheme();
@@ -31,27 +29,7 @@ export default function SettingsPage() {
                 name={user.name || ''}
                 email={user.email || ''}
                 profileImageUrl={profileImageUrl ?? undefined}
-                onEditProfileImage={() => {}}
-              >
-                <UsernameEdit
-                  username={user.name || ''}
-                  onSave={async (newUsername) => {
-                    setSavingUsername(true);
-                    try {
-                      await updateUsername(newUsername);
-                      setUsername(newUsername);
-                      toast.success(t('customizer.username_success') || 'Brukernavn oppdatert!');
-                    } catch (e: any) {
-                      toast.error(t('customizer.username_error') || 'Kunne ikke oppdatere brukernavn.');
-                    } finally {
-                      setSavingUsername(false);
-                    }
-                  }}
-                  saveLabel={t('customizer.username_save') || 'Lagre'}
-                  cancelLabel={t('customizer.cancel') || 'Avbryt'}
-                  label={t('customizer.username_label') || 'Brukernavn'}
-                />
-              </ProfileCard>
+              />
             )}
 
             <LanguageSelector lang={String(lang)} setLang={l => setLang(l as any)} t={t} />

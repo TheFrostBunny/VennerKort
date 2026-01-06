@@ -139,7 +139,21 @@
     "theme_system": "Systemstandard",
     "mode": "Modus",
     "system": "System",
-    "FollowSystem": "Følg system"
+    "FollowSystem": "Følg system",
+    "username_label": "Brukernavn",
+    "username_save": "Lagre",
+    "cancel": "Avbryt",
+    "username_success": "Brukernavn oppdatert!",
+    "username_error": "Kunne ikke oppdatere brukernavn",
+    "edit_profile": "Rediger Profil",
+    "edit_profile_desc": "Oppdater ditt brukernavn og profilbilde",
+    "current_email": "E-post",
+    "email_readonly_note": "E-post kan ikke endres for øyeblikket",
+    "save_changes": "Lagre endringer",
+    "discard_changes": "Avbryt",
+    "discard_changes_confirm": "Vil du forkaste endringene?",
+    "profile_updated": "Profil oppdatert!",
+    "profile_update_error": "Kunne ikke oppdatere profil"
   },
   "about": {
     "subtitle": "Din destinasjon for moderne digitale hilsener",

@@ -139,7 +139,21 @@
     "theme_system": "System Default",
     "mode": "Mode",
     "System": "System",
-    "FollowSystem": "Follow System"
+    "FollowSystem": "Follow System",
+    "username_label": "Username",
+    "username_save": "Save",
+    "cancel": "Cancel",
+    "username_success": "Username updated!",
+    "username_error": "Could not update username",
+    "edit_profile": "Edit Profile",
+    "edit_profile_desc": "Update your username and profile picture",
+    "current_email": "Email",
+    "email_readonly_note": "Email cannot be changed at this time",
+    "save_changes": "Save Changes",
+    "discard_changes": "Cancel",
+    "discard_changes_confirm": "Do you want to discard your changes?",
+    "profile_updated": "Profile updated!",
+    "profile_update_error": "Could not update profile"
   },
   "about": {
     "subtitle": "Your destination for modern digital greetings",
