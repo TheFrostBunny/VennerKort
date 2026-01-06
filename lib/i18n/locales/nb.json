@@ -1,4 +1,23 @@
 {
+  "wiki": {
+    "what": "Hva er HappySend?",
+    "what_desc": "HappySend lar deg sende personlige digitale hilsener med 3D-konvolutter. Du kan lage, tilpasse og dele kort med venner og familie på en enkel og morsom måte.",
+    "how_create": "Hvordan lager jeg et kort?",
+    "how_create_desc": "Gå til 'Send'-siden, velg design, skriv en melding, og del kortet via lenke eller sosiale medier.",
+    "how_receive": "Hvordan mottar jeg et kort?",
+    "how_receive_desc": "Når noen sender deg en lenke til et kort, åpner du den for å se din personlige hilsen. Du kan lagre kortet i din egen oversikt.",
+    "free": "Er HappySend gratis?",
+    "free_desc": "Ja, HappySend er gratis å bruke for alle.",
+    "privacy": "Personvern og sikkerhet",
+    "privacy_desc": "Vi lagrer kun det som er nødvendig for å levere tjenesten. Dine meldinger og data behandles konfidensielt.",
+    "contact": "Kontakt og support",
+    "contact_desc": "Har du spørsmål eller tilbakemeldinger? Kontakt oss via e-post eller bruk tilbakemeldingsskjemaet i appen.",
+    "wiki_Sections": {
+      "sending": "Sende Kort",
+      "receiving": "Motta Kort",
+      "privacy": "Personvern"
+    }
+  },
   "common": {
     "welcome": "Velkommen til HappySend",
     "select_service": "Velg en tjeneste fra menyen for å komme i gang.",
@@ -159,6 +178,8 @@
     "receive": "Mottate Kort",
     "history": "Historikk",
     "language": "Språk",
-    "about": "Om oss"
+    "about": "Om oss",
+    "Wiki": "Wiki",
+    "BackToFrontPage": "← Tilbake til forsiden"
   }
 }

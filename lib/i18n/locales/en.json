@@ -1,4 +1,23 @@
-{
+  {
+  "wiki": {
+    "what": "What is HappySend?",
+    "what_desc": "HappySend lets you send personal digital greetings with 3D envelopes. You can create, customize, and share cards with friends and family easily and in a fun way.",
+    "how_create": "How do I create a card?",
+    "how_create_desc": "Go to the 'Send' page, choose a design, write a message, and share the card via link or social media.",
+    "how_receive": "How do I receive a card?",
+    "how_receive_desc": "When someone sends you a link to a card, open it to see your personal greeting. You can save the card to your own overview.",
+    "free": "Is HappySend free?",
+    "free_desc": "Yes, HappySend is free for everyone.",
+    "privacy": "Privacy and Security",
+    "privacy_desc": "We only store what is necessary to provide the service. Your messages and data are handled confidentially.",
+    "contact": "Contact and support",
+    "contact_desc": "Questions or feedback? Contact us by email or use the feedback form in the app.",
+    "wiki_Sections": {
+      "sending": "Send Cards",
+      "receiving": "Receive Cards",
+      "privacy": "Privacy"
+    }
+  },
   "common": {
     "welcome": "Welcome to HappySend",
     "select_service": "Choose a service from the menu to get started.",
@@ -154,6 +173,9 @@
     "receive": "Receive Card",
     "history": "History",
     "language": "Language",
-    "about": "About Us"
+    "about": "About Us",
+    "Wiki": "Wiki",
+    "BackToFrontPage": "Back to the front page",
+    "backToOverview": " Back to overview"
   }
 }
