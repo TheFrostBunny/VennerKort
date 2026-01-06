@@ -112,7 +112,15 @@
     "profile_image_saving": "Saving...",
     "profile_image_edit": "Edit profile picture",
     "profile_image_edit_title": "Edit Profile Picture",
-    "profile_image_edit_desc": "Upload a new image or enter a URL to an image on the web."
+    "profile_image_edit_desc": "Upload a new image or enter a URL to an image on the web.",
+    "theme_desc": "Choose between light, dark, or system theme.",
+    "theme_title": "Theme Preference",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "theme_system": "System Default",
+    "mode": "Mode",
+    "System": "System",
+    "FollowSystem": "Follow System"
   },
   "about": {
     "subtitle": "Your destination for modern digital greetings",
