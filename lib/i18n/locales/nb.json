@@ -59,7 +59,8 @@
     "preview": "Forhåndsvisning",
     "save_card": "Lagre kortet",
     "card_saved": "Kortet er lagret!",
-    "card": "Kort"
+    "card": "Kort",
+    "language": "Kort Språk"
   },
   "customizer": {
     "title": "Tilpass Kortet",
@@ -166,6 +167,11 @@
   },
   "changelog": {
     "title": "Endringslogg",
+
+    "v1_5_0": {
+      "date": "February 15, 2026",
+      "desc": "Introdusert ny språkstøtte for tilfeldige meldinger, nå kan du velge mellom engelsk og norsk."
+    },
 
     "v1_4_0": {
       "date": "January 10, 2026",

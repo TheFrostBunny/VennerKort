@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sparkles, RefreshCcw } from "lucide-react";
+import { Sparkles, RefreshCcw, Shuffle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/i18n-context";
 import { CardTypeSelector } from "./CardTypeSelector";
@@ -16,6 +16,10 @@ import { EnvelopeSelector } from "./EnvelopeSelector";
 import { ShowIndicatorSwitch } from "./ShowIndicatorSwitch";
 import { TimeLockInput } from "./TimeLockInput";
 import { CustomizerActionButtons } from "./CustomizerActionButtons";
+import { LanguageSelectorCard } from "./LanguageSelectorCard";
+import { translations } from "@/lib/i18n/translations";
+import { DEFAULT_MESSAGES } from "@/lib/constants";
+import { DEFAULT_MESSAGES_EN } from "@/lib/constants-en";
 
 export type CardType = "friend" | "love" | "crush";
 
@@ -33,6 +37,7 @@ export interface CardState {
   confettiType: "standard" | "hearts" | "stars" | "snow";
   envelopeStyle: "classic" | "modern" | "vintage";
   unlockAt: string | null;
+  language: string; // Språk for kortet
 }
 
 interface CardCustomizerProps {
@@ -42,6 +47,8 @@ interface CardCustomizerProps {
   onPreview?: () => void;
   onRandomMessage: () => void;
   isLinkCopied: boolean;
+  // Ny prop for random utseende, men fallback til lokal hvis ikke sendt inn
+  onRandomizeAppearance?: () => void;
 }
 
 const FONTS = [
@@ -105,24 +112,80 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
     { name: t("customizer.env_vintage"), value: "vintage" },
   ];
 
+  // Funksjon for å randomisere utseende
+  const handleRandomizeAppearance = () => {
+    // Tilfeldige valg fra eksisterende arrays
+    const pick = (arr: any[]) => arr[Math.floor(Math.random() * arr.length)].value;
+    const type = state.type || 'friend';
+    let message = state.message;
+    if (state.language === 'en') {
+      const arr = DEFAULT_MESSAGES_EN[type] || [];
+      if (arr.length > 0) {
+        message = arr[Math.floor(Math.random() * arr.length)];
+      }
+    } else {
+      const arr = DEFAULT_MESSAGES[type] || [];
+      if (arr.length > 0) {
+        message = arr[Math.floor(Math.random() * arr.length)];
+      }
+    }
+    onChange({
+      backgroundColor: pick(COLORS),
+      textColor: pick(TEXT_COLORS),
+      font: pick(FONTS),
+      border: pick(BORDERS),
+      effect: pick(EFFECTS),
+      confettiType: pick(CONFETTI),
+      envelopeStyle: pick(ENVELOPES),
+      message,
+    });
+  };
+
   return (
     <div className="h-full flex flex-col bg-transparent p-0 sm:bg-white sm:dark:bg-zinc-900 sm:border-l sm:border-zinc-200 sm:dark:border-zinc-800 sm:p-4 sm:shadow-xl">
       <div className="flex-1 overflow-y-auto pr-1 -mr-1 scrollbar-hide space-y-3 sm:space-y-4 pb-4">
         {/* Header */}
-        <div className="flex items-center justify-between pb-2">
+        <div className="flex items-center justify-between pb-2 gap-2">
           <h2 className="text-sm font-black uppercase tracking-wider text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-pink-500" />
             {t("customizer.title")}
           </h2>
-          <button
-            type="button"
-            onClick={onRandomMessage}
-            className="h-7 w-7 p-0 rounded-full hover:bg-pink-50 dark:hover:bg-pink-900/20 flex items-center justify-center"
-            aria-label={t("card_app.random_msg")}
-          >
-            <RefreshCcw className="w-3.5 h-3.5 text-pink-500" />
-          </button>
+          <div className="flex gap-1">
+            <button
+              type="button"
+              onClick={handleRandomizeAppearance}
+              className="h-7 w-7 p-0 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center justify-center"
+              aria-label={t("customizer.random_appearance")}
+            >
+              <Shuffle className="w-3.5 h-3.5 text-blue-500" />
+            </button>
+          </div>
         </div>
+
+        {/* Språkvelger */}
+        <LanguageSelectorCard
+          value={state.language}
+          onChange={(language) => {
+            let message = state.message;
+            if (language === 'en') {
+              // Velg tilfeldig engelsk melding for valgt type
+              const arr = DEFAULT_MESSAGES_EN[state.type] || [];
+              if (arr.length > 0) {
+                message = arr[Math.floor(Math.random() * arr.length)];
+              }
+            } else if (language === 'nb') {
+              // Velg tilfeldig norsk melding for valgt type
+              const arr = DEFAULT_MESSAGES[state.type] || [];
+              if (arr.length > 0) {
+                message = arr[Math.floor(Math.random() * arr.length)];
+              }
+            }
+            onChange({
+              language,
+              message,
+            });
+          }}
+        />
 
         {/* Card Type */}
         <CardTypeSelector

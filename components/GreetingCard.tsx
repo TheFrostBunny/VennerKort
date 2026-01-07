@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils';
 import { CardState } from './sendcard/CardCustomizer';
 import confetti from 'canvas-confetti';
 import { useI18n } from '@/lib/i18n/i18n-context';
+import { DEFAULT_MESSAGES } from '@/lib/constants';
+import { DEFAULT_MESSAGES_EN } from '@/lib/constants-en';
 
 interface GreetingCardProps {
   state: CardState;
@@ -411,7 +413,33 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
                   className="text-3xl md:text-5xl leading-[1.3] font-black tracking-tight"
                   style={{ color: state.textColor }}
                 >
-                  {state.message}
+                  {/* Vis korttekst på valgt språk hvis mulig */}
+                  {(() => {
+                    // Finn type og index hvis meldingen matcher en av default-meldingene
+                    let foundType: string | undefined;
+                    let foundIdx: number | undefined;
+                    for (const type of Object.keys(DEFAULT_MESSAGES)) {
+                      const idx = DEFAULT_MESSAGES[type as keyof typeof DEFAULT_MESSAGES].indexOf(state.message);
+                      if (idx !== -1) {
+                        foundType = type;
+                        foundIdx = idx;
+                        break;
+                      }
+                    }
+                    if (foundType && foundIdx !== undefined) {
+                      // Forsøk å hente oversatt melding fra DEFAULT_MESSAGES for valgt språk
+                      // Her kan du utvide med flere språk hvis du har flere DEFAULT_MESSAGES_X
+                      if (state.language === 'en' && typeof DEFAULT_MESSAGES_EN !== 'undefined') {
+                        // @ts-ignore
+                        const arr = DEFAULT_MESSAGES_EN[foundType];
+                        if (arr && arr[foundIdx]) return arr[foundIdx];
+                      }
+                      // Norsk er default
+                      return DEFAULT_MESSAGES[foundType as keyof typeof DEFAULT_MESSAGES][foundIdx];
+                    }
+                    // Ellers vis meldingen som den er
+                    return state.message;
+                  })()}
                 </motion.h2>
               </div>
             </div>

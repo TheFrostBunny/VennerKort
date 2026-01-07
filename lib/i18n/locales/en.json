@@ -39,6 +39,14 @@
     "create_own": "Create your own card",
     "share_title": "Share your card",
     "copy_link": "Copy Link",
+    "random_msg": "Random message",
+    "sender_name": "Your name",
+    "sender_placeholder": "Write your name...",
+    "message_title": "Message",
+    "message_placeholder": "Write your greeting here...",
+    "preview": "Preview",
+    "save_card": "Save the card",
+    "card_saved": "The card has been saved!",
     "link_copied": "Link copied!"
   },
   "share": {
@@ -153,7 +161,8 @@
     "discard_changes": "Cancel",
     "discard_changes_confirm": "Do you want to discard your changes?",
     "profile_updated": "Profile updated!",
-    "profile_update_error": "Could not update profile"
+    "profile_update_error": "Could not update profile",
+    "language": "Card Language"
   },
   "about": {
     "subtitle": "Your destination for modern digital greetings",
@@ -166,6 +175,11 @@
   },
   "changelog": {
     "title": "Changelog",
+
+    "v1_5_0": {
+      "date": "February 15, 2026",
+      "desc": "Introduced new language support for random messages now can you choose between English and Norwegian."
+    },
 
     "v1_4_0": {
       "date": "January 10, 2026",
