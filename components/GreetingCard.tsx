@@ -16,7 +16,7 @@ interface GreetingCardProps {
 
 export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = false, onOpen }) => {
   const [isOpen, setIsOpen] = useState(!isViewOnly);
-  const [isFlipped, setIsFlipped] = useState(false);
+  // const [isFlipped, setIsFlipped] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { t } = useI18n();
@@ -25,7 +25,7 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
   useEffect(() => {
     if (isViewOnly) {
       setIsOpen(false);
-      setIsFlipped(true); // Show the Priority Mail side first!
+      // setIsFlipped(true); // Flip-funksjon fjernet
     } else {
       setIsOpen(true);
     }
@@ -173,16 +173,8 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
             <motion.div 
               className="w-full h-full relative"
               style={{ transformStyle: 'preserve-3d' }}
-              animate={{ rotateY: isFlipped ? 180 : 0 }}
-              transition={{ duration: 0.6, type: 'spring', damping: 20, stiffness: 100 }}
-              onClick={() => {
-                if (isFlipped) {
-                  setIsFlipped(false);
-                  setTimeout(() => handleOpen(), 150);
-                } else {
-                  handleOpen();
-                }
-              }}
+              // Flip-funksjon fjernet
+              onClick={handleOpen}
             >
               {/* ENVELOPE FRONT (Address Side) - Based on user image */}
               <div 
@@ -453,27 +445,7 @@ export const GreetingCard: React.FC<GreetingCardProps> = ({ state, isViewOnly = 
         )}
       </AnimatePresence>
 
-      {/* Flip Button */}
-      <AnimatePresence>
-        {!isOpen && isViewOnly && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            className="absolute bottom-6 right-6 z-40"
-          >
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsFlipped(!isFlipped);
-              }}
-              className="p-3.5 rounded-full bg-zinc-900 dark:bg-zinc-900 shadow-2xl border-2 border-white dark:border-white hover:scale-110 active:scale-95 transition-all text-pink-500 group"
-            >
-              <RefreshCcw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Flip Button fjernet */}
     </div>
   );
 };
