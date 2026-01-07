@@ -7,6 +7,7 @@ import { useI18n } from "@/lib/i18n/i18n-context";
 import { CardTypeSelector } from "./CardTypeSelector";
 import { SenderNameInput } from "./SenderNameInput";
 import { MessageTextarea } from "./MessageTextarea";
+import { ContactList } from "./ContactList";
 import { ColorPicker } from "./ColorPicker";
 import { FontSelector } from "./FontSelector";
 import { BorderSelector } from "./BorderSelector";
@@ -128,6 +129,16 @@ export const CardCustomizer: React.FC<CardCustomizerProps> = ({
         <CardTypeSelector
           value={state.type}
           onChange={(type, emoji) => onChange({ type, emoji })}
+        />
+
+
+        {/* Kontaktliste for autofyll */}
+        <ContactList
+          onSelect={(contact) => {
+            onChange({ senderName: contact.name });
+            // Hvis du har et adressefelt, kan du legge til det her
+            // onChange({ address: contact.address });
+          }}
         />
 
         {/* Sender Name */}
