@@ -39,6 +39,14 @@
     "create_own": "Create your own card",
     "share_title": "Share your card",
     "copy_link": "Copy Link",
+    "random_msg": "Random message",
+    "sender_name": "Your name",
+    "sender_placeholder": "Write your name...",
+    "message_title": "Message",
+    "message_placeholder": "Write your greeting here...",
+    "preview": "Preview",
+    "save_card": "Save the card",
+    "card_saved": "The card has been saved!",
     "link_copied": "Link copied!"
   },
   "share": {
@@ -153,7 +161,8 @@
     "discard_changes": "Cancel",
     "discard_changes_confirm": "Do you want to discard your changes?",
     "profile_updated": "Profile updated!",
-    "profile_update_error": "Could not update profile"
+    "profile_update_error": "Could not update profile",
+    "language": "Card Language"
   },
   "about": {
     "subtitle": "Your destination for modern digital greetings",
@@ -162,13 +171,18 @@
     "mission_desc": "We want to make it easier and more magical to show you care, regardless of distance.",
     "creator_title": "The Creator",
     "creator_desc": "HappySend is developed with ❤️ to create small moments of joy in everyday life.",
-    "version": "HappySend v1.3.0"
+    "version": "HappySend v1.5.0"
   },
   "changelog": {
     "title": "Changelog",
 
+    "v1_5_0": {
+      "date": "January 9, 2026",
+      "desc": "Introduced new language support for random messages now can you choose between English and Norwegian."
+    },
+
     "v1_4_0": {
-      "date": "January 10, 2026",
+      "date": "January 7, 2026",
       "desc": "Added Theme Preference: Choose between light, dark, or system theme. and intoduced new Wiki Page with FAQs and guides. and Improved mobile responsiveness and performance."
     },
     "v1_3_0": {

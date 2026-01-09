@@ -60,9 +60,9 @@ function SendContent() {
     emoji: '😊',
     showIndicator: false,
     confettiType: 'standard',
-
     envelopeStyle: 'classic',
     unlockAt: null,
+    language: 'nb', // default norsk
   });
 
   // Maps for ultra-compact encoding
@@ -89,19 +89,20 @@ function SendContent() {
         getCard(cloudId).then((doc) => {
             setIsViewOnly(true);
             setState({
-                type: (doc.type as CardType) || 'friend',
-                message: doc.message || '',
-                senderName: doc.senderName || '',
-                backgroundColor: doc.backgroundColor || '#ffb6c1',
-                textColor: doc.textColor || '#ff1493',
-                font: doc.font || FONT_MAP[0],
-                border: doc.border || 'none',
-                effect: doc.effect || 'none',
-                emoji: doc.emoji || '😊',
-                showIndicator: doc.showIndicator,
-                confettiType: doc.confettiType || 'standard',
-                envelopeStyle: doc.envelopeStyle || 'classic',
-                unlockAt: doc.unlockAt || null,
+              type: (doc.type as CardType) || 'friend',
+              message: doc.message || '',
+              senderName: doc.senderName || '',
+              backgroundColor: doc.backgroundColor || '#ffb6c1',
+              textColor: doc.textColor || '#ff1493',
+              font: doc.font || FONT_MAP[0],
+              border: doc.border || 'none',
+              effect: doc.effect || 'none',
+              emoji: doc.emoji || '😊',
+              showIndicator: doc.showIndicator,
+              confettiType: doc.confettiType || 'standard',
+              envelopeStyle: doc.envelopeStyle || 'classic',
+              unlockAt: doc.unlockAt || null,
+              language: doc.language || 'nb',
             });
         }).catch(() => {
             toast.error("Fant ikke kortet", { description: "Linken kan være ugyldig eller utløpt." });
@@ -128,9 +129,9 @@ function SendContent() {
             emoji: em || '😊',
             showIndicator: h !== 0,
             confettiType: (CONFETTI_MAP[data[10]] as any) || 'standard',
-
             envelopeStyle: (ENVELOPES_MAP[data[11]] as any) || 'classic',
             unlockAt: uAt || null,
+            language: 'nb',
           });
         } else {
           setState({
@@ -145,9 +146,9 @@ function SendContent() {
             emoji: data.em || '😊',
             showIndicator: data.h !== false,
             confettiType: data.ct || 'standard',
-
             envelopeStyle: data.es || 'classic',
             unlockAt: data.uAt || null,
+            language: data.language || 'nb',
           });
         }
       } catch (e) {
@@ -167,16 +168,34 @@ function SendContent() {
         emoji: searchParams.get('emoji') || '😊',
         showIndicator: searchParams.get('hint') !== 'false',
         confettiType: (searchParams.get('confetti') as any) || 'standard',
-
         envelopeStyle: (searchParams.get('env') as any) || 'classic',
         unlockAt: searchParams.get('unlockAt') || null,
+        language: searchParams.get('lang') || 'nb',
       });
     } else {
       // Check for draft
       const savedDraft = localStorage.getItem('happysend_draft');
       if (savedDraft) {
         try {
-          setState(JSON.parse(savedDraft));
+          const parsed = JSON.parse(savedDraft);
+          // Sørg for at language alltid finnes og at parsed er CardState
+          const safeParsed: CardState = {
+            type: parsed.type || 'friend',
+            message: parsed.message || '',
+            senderName: parsed.senderName || '',
+            backgroundColor: parsed.backgroundColor || '#ffb6c1',
+            textColor: parsed.textColor || '#ff1493',
+            font: parsed.font || 'var(--font-dancing-script, cursive)',
+            border: parsed.border || 'none',
+            effect: parsed.effect || 'none',
+            emoji: parsed.emoji || '😊',
+            showIndicator: typeof parsed.showIndicator === 'boolean' ? parsed.showIndicator : false,
+            confettiType: parsed.confettiType || 'standard',
+            envelopeStyle: parsed.envelopeStyle || 'classic',
+            unlockAt: parsed.unlockAt || null,
+            language: parsed.language || 'nb',
+          };
+          setState(safeParsed);
         } catch (e) {
           console.error("Failed to load draft", e);
         }
@@ -196,6 +215,8 @@ function SendContent() {
   const updateState = (newState: Partial<CardState>) => {
     setState(prev => {
       const updated = { ...prev, ...newState };
+      // Sørg for at language alltid er med
+      // language-feltet håndteres eksplisitt i CardState og draft-load, så ingen ekstra sjekk trengs her
       if (newState.type && newState.type !== prev.type) {
         // Only reset if current message is a default message
         const allDefaults = Object.values(DEFAULT_MESSAGES).flat();
