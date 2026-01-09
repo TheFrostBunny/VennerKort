@@ -217,5 +217,13 @@
     "Wiki": "Wiki",
     "BackToFrontPage": "Back to the front page",
     "backToOverview": " Back to overview"
+  },
+  "deviceinfo": {
+    "title": "Device Information",
+    "subtitle": "Technical info about your device",
+    "useragent": "User Agent",
+    "platform": "Platform",
+    "language": "Language",
+    "vendor": "Vendor"
   }
 }

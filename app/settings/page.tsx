@@ -9,6 +9,7 @@ import { ProfileCard } from '@/components/settings/ProfileCard';
 import { LanguageSelector } from '@/components/settings/LanguageSelector';
 import { ThemeSelector } from '@/components/settings/ThemeSelector';
 import { AboutSection } from '@/components/settings/AboutSection';
+import { DeviceInfoSection } from '@/components/settings/DeviceInfoSection';
 
 export default function SettingsPage() {
   const { lang, setLang, t } = useI18n();
@@ -22,7 +23,6 @@ export default function SettingsPage() {
     <SidebarIconExample>
       <main className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-zinc-950">
         <div className="flex-1 flex flex-col gap-8 p-2 sm:p-6 md:p-10 max-w-full md:max-w-4xl mx-auto w-full transition-colors bg-white dark:bg-zinc-950 overflow-y-auto scrollbar-hide">
-          {/* Menu/cards grid */}
           <div className="grid gap-8">
             {user && (
               <ProfileCard
@@ -39,6 +39,7 @@ export default function SettingsPage() {
 
 
             <AboutSection t={t} />
+            <DeviceInfoSection />
           </div>
         </div>
       </main>

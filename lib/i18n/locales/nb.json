@@ -214,4 +214,13 @@
     "Wiki": "Wiki",
     "BackToFrontPage": "← Tilbake til forsiden"
   }
+  ,
+  "deviceinfo": {
+    "title": "Enhetsinformasjon",
+    "subtitle": "Teknisk info om din enhet",
+    "useragent": "User Agent",
+    "platform": "Plattform",
+    "language": "Språk",
+    "vendor": "Leverandør"
+  }
 }

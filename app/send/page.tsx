@@ -240,22 +240,17 @@ function SendContent() {
   const generateShareUrl = useCallback(async (): Promise<string> => {
     const url = new URL(window.location.origin + '/send');
     
-    // Check if logged in for Cloud Save
-    if (user) {
-        try {
-             // Save to Appwrite
-             const doc = await createCard({
-                 ...state,
-                 senderName: state.senderName || user.name, // Fallback to user name
-             });
-             url.searchParams.set('id', doc.$id);
-             return url.toString();
-        } catch (error) {
-            console.error(error);
-            toast.error("Kunne ikke lagre til skyen", { description: "Bruker standard link i stedet." });
-            // Fallthrough to standard logic on error
-        }
-    }
+    // Cloud Save til Appwrite er deaktivert (alltid bruk Base64-url)
+    // if (user) {
+    //     try {
+    //          const doc = await createCard({ ...state, senderName: state.senderName || user.name });
+    //          url.searchParams.set('id', doc.$id);
+    //          return url.toString();
+    //     } catch (error) {
+    //         console.error(error);
+    //         toast.error("Kunne ikke lagre til skyen", { description: "Bruker standard link i stedet." });
+    //     }
+    // }
 
     // Standard Logic (Base64)
     const data = [
@@ -300,19 +295,16 @@ function SendContent() {
           sentAt: new Date().toISOString()
         };
         localStorage.setItem('happysend_history', JSON.stringify([...sentHistory, newSentCard]));
-        return; // Don't show dialog if native share succeeded
+        return;
       } catch (error: any) {
-        // User cancelled or share failed, fall through to dialog
         if (error.name !== 'AbortError') {
           console.log('Native share failed, showing dialog');
         }
       }
     }
     
-    // Show dialog for desktop or if native share failed
     setShowShareDialog(true);
     
-    // Save to history
     const sentHistory = JSON.parse(localStorage.getItem('happysend_history') || '[]');
     const newSentCard = {
       ...state,
