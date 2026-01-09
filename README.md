@@ -1,4 +1,4 @@
-# ⚠️ Note: This  will not be updated further.
+# ⚠️ Note: This project will not be updated further.
 
 # 💌 HappySend v1.5.0
 
