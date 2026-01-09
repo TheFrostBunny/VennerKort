@@ -1,63 +1,65 @@
+# ⚠️ Note: This  will not be updated further.
+
 # 💌 HappySend v1.5.0
 
-**HappySend** er en moderne web-applikasjon for å lage, tilpasse og sende digitale hilsener med en "WOW"-faktor. Appen er bygget for å gi en følelse av å åpne et ekte, fysisk kort, komplett med 3D-konvolutt, animasjoner og konfetti.
+**HappySend** is a modern web application for creating, customizing, and sending digital greetings with a "WOW" factor. The app is designed to give the feeling of opening a real, physical card, complete with a 3D envelope, animations, and confetti.
 
-## ✨ Egenskaper
+## ✨ Features
 
-- **Interaktiv 3D-opplevelse**: En animert 3D-konvolutt som reagerer på musebevegelser og åpner seg for å avdekke kortet.
-- **Full Tilpasning**: Velg mellom ulike korttyper (Venn, Kjærlighet, Hemmelig Beundrer), farger, skrifttyper, rammer og effekter (hjerter, stjerner, bølger).
-- **Ultra-kompakte lenker**: Bruker avansert Base64-posisjonell koding for å komprimere alt kort-innholdet til én ekstremt kort URL.
-- **Fler-språklig støtte**: Full støtte for både Norsk og Engelsk (i18n).
-- **Dashbord & Historikk**: Oversikt over mottatte kort og din egen sendehistorikk (lagret lokalt).
-- **Om HappySend**: Integrert seksjon i innstillinger med informasjon om misjon, visjon og skaper.
-- **Responsivt Design**: Optimalisert for en "null-scroll"-opplevelse på alle skjermstørrelser.
-- **Mørk/Lys Modus**: Full støtte for systemvalgt eller manuelt tema.
-- **Timed opening**: Set a date and time for the card to be opened (e.g. "Don't open until Christmas Eve!").**
+- **Interactive 3D Experience**: An animated 3D envelope that reacts to mouse movements and opens to reveal the card.
+- **Full Customization**: Choose between different card types (Friend, Love, Secret Admirer), colors, fonts, borders, and effects (hearts, stars, waves).
+- **Ultra-compact Links**: Uses advanced Base64 positional encoding to compress all card content into a single, extremely short URL.
+- **Multi-language Support**: Full support for both Norwegian and English (i18n).
+- **Dashboard & History**: Overview of received cards and your own sending history (stored locally).
+- **About HappySend**: Integrated section in settings with information about the mission, vision, and creator.
+- **Responsive Design**: Optimized for a "zero-scroll" experience on all screen sizes.
+- **Dark/Light Mode**: Full support for system-selected or manual theme.
+- **Timed Opening**: Set a date and time for the card to be opened (e.g., "Don't open until Christmas Eve!").
 
-## 🛠 Teknologi
+## 🛠 Technology
 
-- **Framework**: [Next.js 16.1+](https://nextjs.org/) (App Router med stabil **Turbopack**)
-- **UI Logikk**: [React 19](https://reactjs.org/)
+- **Framework**: [Next.js 16.1+](https://nextjs.org/) (App Router with stable **Turbopack**)
+- **UI Logic**: [React 19](https://reactjs.org/)
 - **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
-- **Animasjoner**: [Framer Motion](https://www.framer.com/motion/)
-- **Ikoner**: [Lucide React](https://lucide.dev/) & [Hugeicons](https://hugeicons.com/)
-- **Effekter**: [Canvas Confetti](https://www.npmjs.com/package/canvas-confetti)
-- **Type-sikkerhet**: [TypeScript 5+](https://www.typescriptlang.org/)
-- **PWA (Progressive Web App)**: Gjør det mulig å installere HappySend som en app på telefonen utenom App Store.
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/) & [Hugeicons](https://hugeicons.com/)
+- **Effects**: [Canvas Confetti](https://www.npmjs.com/package/canvas-confetti)
+- **Type Safety**: [TypeScript 5+](https://www.typescriptlang.org/)
+- **PWA (Progressive Web App)**: Allows you to install HappySend as an app on your phone outside the App Store.
 
-## 🚀 Kom i gang
+## 🚀 Getting Started
 
-### Forutsetninger
+### Prerequisites
 
-- Node.js og pnpm (eller npm/yarn) installert.
+- Node.js and pnpm (or npm/yarn) installed.
 
-### Installasjon
+### Installation
 
-1. Klon prosjektet:
+1. Clone the project:
 
    ```bash
    git clone https://github.com/TheFrostBunny/HappySend.git
    cd HappySend
    ```
 
-2. Installer avhengigheter:
+2. Install dependencies:
 
    ```bash
    pnpm install
    ```
 
-3. Kjør utviklingsserveren:
+3. Start the development server:
 
    ```bash
    pnpm dev
    ```
 
-4. Åpne [http://localhost:3000](http://localhost:3000) i nettleseren din.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 📁 Prosjektstruktur
+## 📁 Project Structure
 
-- `/app`: Next.js ruter og sider (`/send`, `/receive`, `/history`, etc.)
-- `/components`: Gjenbrukbare React-komponenter.
+- `/app`: Next.js routes and pages (`/send`, `/receive`, `/history`, etc.)
+- `/components`: Reusable React components.
 - `/components/Pages`: Hovedlogikken for de forskjellige seksjonene.
 - `/lib/i18n`: Internasjonalisering og oversettelsesfiler.
 - `/public`: Statiske filer som logoer og favicon.
